@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DersForAll · Çalışma siteleri</title>
-<meta name="description" content="EnesDers, SoFL 1115 İngilizce ve Python, Sudis çalışma siteleri tek yerde.">
+<meta name="description" content="EnesDers, SoFL 1115 İngilizce ve Python, Sudis ve Starter–Intermediate Python çalışma siteleri tek yerde.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
@@ -121,6 +121,23 @@
   .sudis .wm{font-family:"Nunito",system-ui,sans-serif; font-size:5.2rem; right:22px; bottom:34px; color:#5f8a74; opacity:.24}
   .sudis .back .b-title{display:none}
 
+  /* ---------- Starter–Intermediate Python · mor-kırmızı ---------- */
+  .spy{--accent:#b393e6}
+  .spy .front::before{background:linear-gradient(90deg,#8f6bc9,#c7606f)}
+  .spy .back{background:#16111b; color:#ebe3ef; border:1px solid #33293d; padding:0;
+    background-image:radial-gradient(circle at 100% 100%, rgba(199,96,111,.22), transparent 55%), radial-gradient(circle at 0% 0%, rgba(143,107,201,.18), transparent 50%)}
+  .spy .ui-bar{background:#1e1724; border-color:#33293d; position:relative}
+  .spy .ui-bar::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:linear-gradient(90deg,#8f6bc9,#c7606f)}
+  .spy .ui-bar i{color:#a597b0}
+  .spy .ui-bar i.on{background:#2a2138; color:#b393e6}
+  .spy .b-title.sm{font-weight:700; font-size:1.08rem; background:linear-gradient(90deg,#c6a4f2,#e7a3ae); -webkit-background-clip:text; background-clip:text; color:transparent; width:fit-content}
+  .spy .code2{font-family:"JetBrains Mono",Consolas,Menlo,monospace; font-size:.74rem; line-height:1.55; background:#120d16; color:#e8deee;
+    border:1px solid #33293d; border-radius:10px; padding:9px 11px; white-space:pre; overflow:hidden}
+  .spy .code2 .k{color:#c6a4f2} .spy .code2 .s{color:#e7a3ae} .spy .code2 .n{color:#f0c38e} .spy .code2 .f{color:#9fd0c4}
+  .spy .go{color:#df7b8a}
+  .spy .wm{font-size:2.9rem; right:18px; bottom:22px; color:transparent; background:linear-gradient(90deg,#8f6bc9,#c7606f);
+    -webkit-background-clip:text; background-clip:text; opacity:.38}
+
   /* dokunmatik: takla yok, kart düz kalır */
   @media (prefers-reduced-motion: reduce){ .flip{transition:none} }
 
@@ -146,7 +163,7 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
 <main>
   <p class="eyebrow">Emirhan Öz</p>
   <h1>DersForAll</h1>
-  <p class="lead">Arkadaşlar için hazırlanan üç çalışma sitesi. Kartın üstüne gel, açılacak sitenin temasını gör.</p>
+  <p class="lead">Arkadaşlar için hazırlanan dört çalışma sitesi. Kartın üstüne gel, açılacak sitenin temasını gör.</p>
 
   <div class="grid">
     <a class="card enes" href="enesders/" aria-label="EnesDers vize çalışma sitesini aç">
@@ -201,6 +218,27 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
           <span class="b-title">Sudis</span>
           <div class="topics"><span>Göç tarihi</span><span>Kültürlerarası edebiyat</span><span>Siyasi-hukuki koşullar</span></div>
           <span class="go">Siteyi aç →</span>
+        </div>
+      </div>
+    </a>
+    <a class="card spy" href="starter-python/" aria-label="Starter–Intermediate Python sitesini aç">
+      <div class="flip">
+        <div class="face front">
+          <span class="tag">Python</span>
+          <h2>Starter–Intermediate Python</h2>
+          <p>10 konu özeti ve tuzaklar, her konuya 2 test, 250 soruluk rastgele test havuzu.</p>
+          <span class="hint">Mor-kırmızı tema</span>
+        </div>
+        <div class="face back" aria-hidden="true">
+          <span class="wm">Özge Abla</span>
+          <div class="ui-bar"><i class="on">Genel Tekrar</i><i>Test</i></div>
+          <div class="ui-body">
+            <span class="b-title sm">Python · Starter–Intermediate</span>
+            <div class="code2"><span class="k">def</span> <span class="f">topla</span>(a, b):
+    <span class="k">return</span> a + b
+<span class="f">print</span>(<span class="f">topla</span>(<span class="n">3</span>, <span class="n">4</span>))</div>
+            <span class="go">Siteyi aç →</span>
+          </div>
         </div>
       </div>
     </a>

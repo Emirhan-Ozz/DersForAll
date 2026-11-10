@@ -1,0 +1,96 @@
+/* Starter–Intermediate Python · mor-kırmızı tema
+   Göz yormasın diye: düşük doygunluk, koyu mürdüm zemin, yumuşak lila vurgu, tozlu gül kırmızısı.
+   style.css'in değişkenlerini ezer; yapı aynı kalır. */
+
+:root {
+  --bg: #f6f2f7;
+  --surface: #fffdfd;
+  --surface-2: #f0e9f2;
+  --text: #2b2130;
+  --muted: #6e6178;
+  --border: #e3d8e8;
+  --accent: #7a4fb0;
+  --accent-soft: #efe6f8;
+  --rose: #b4485a;
+  --rose-soft: #f8e7ea;
+  --ok: #3d7f5c;
+  --ok-soft: #e3f1e8;
+  --bad: #b4485a;
+  --bad-soft: #f8e7ea;
+  --warn: #8e6416;
+  --warn-soft: #f9efd9;
+  --code-bg: #221a29;
+  --code-text: #ece3f1;
+  --code-out: #2b2133;
+  --shadow: 0 1px 2px rgba(60, 30, 70, .06);
+  --band: linear-gradient(90deg, #7a4fb0, #b4485a);
+}
+
+:root[data-theme="dark"] {
+  --bg: #16111b;
+  --surface: #1e1724;
+  --surface-2: #272030;
+  --text: #ebe3ef;
+  --muted: #a597b0;
+  --border: #33293d;
+  --accent: #b393e6;
+  --accent-soft: #2a2138;
+  --rose: #df7b8a;
+  --rose-soft: #33202a;
+  --ok: #7cc39b;
+  --ok-soft: #18291f;
+  --bad: #df7b8a;
+  --bad-soft: #33202a;
+  --warn: #d9b26a;
+  --warn-soft: #2c2416;
+  --code-bg: #120d16;
+  --code-text: #e8deee;
+  --code-out: #1b1420;
+  --shadow: none;
+  --band: linear-gradient(90deg, #8f6bc9, #c7606f);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16111b; --surface: #1e1724; --surface-2: #272030; --text: #ebe3ef; --muted: #a597b0; --border: #33293d;
+    --accent: #b393e6; --accent-soft: #2a2138; --rose: #df7b8a; --rose-soft: #33202a;
+    --ok: #7cc39b; --ok-soft: #18291f; --bad: #df7b8a; --bad-soft: #33202a; --warn: #d9b26a; --warn-soft: #2c2416;
+    --code-bg: #120d16; --code-text: #e8deee; --code-out: #1b1420; --shadow: none;
+    --band: linear-gradient(90deg, #8f6bc9, #c7606f);
+  }
+}
+
+/* Üst bant: ince mor→kırmızı çizgi */
+.topbar { border-bottom: 1px solid var(--border); }
+.topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--band); opacity: .85; }
+.topbar { position: sticky; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .95rem; color: var(--text); margin-right: 14px; white-space: nowrap; }
+.brand:hover { text-decoration: none; }
+.brand i { width: 10px; height: 10px; border-radius: 3px; background: var(--band); display: inline-block; }
+.brand span { color: var(--muted); font-weight: 500; }
+@media (max-width: 560px) { .brand span { display: none; } }
+
+/* Başlıklar ve konu işaretleri */
+h1 { background: var(--band); -webkit-background-clip: text; background-clip: text; color: transparent; width: fit-content; }
+.topic h2 { border-left: 3px solid var(--rose); padding-left: 10px; }
+.toc a.active { color: var(--accent); }
+
+/* Tuzak kutuları kırmızı, ipuçları mor */
+.callout.trap { background: var(--rose-soft); border-color: var(--rose); }
+.callout.trap .label { color: var(--rose); }
+
+/* Test kartları: üzerine gelince yumuşak mor-kırmızı kenar */
+a.test-card { position: relative; overflow: hidden; }
+a.test-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--band); opacity: 0; transition: opacity .2s; }
+a.test-card:hover::before, a.test-card.featured::before { opacity: 1; }
+.badge.exam { background: var(--rose-soft); color: var(--rose); }
+
+/* Kod renkleri: göz yormayan pastel */
+pre.code .c { color: #8a7d93; }
+pre.code .s { color: #e7a3ae; }
+pre.code .k { color: #c6a4f2; }
+pre.code .n { color: #f0c38e; }
+pre.code .f { color: #9fd0c4; }
+
+/* Seçimler */
+::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+.topic-tests { display: inline-flex; gap: 6px; flex-wrap: wrap; }
