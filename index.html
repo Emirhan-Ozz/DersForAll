@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DersForAll · Çalışma siteleri</title>
+<meta name="description" content="Tarım ve hayvancılık dersleri, SoFL 1115 İngilizce ve Python, Sudis çalışma siteleri tek yerde.">
+<style>
+  :root{
+    --bg:#f3f1ea; --panel:#fffdf8; --line:#e0dccf; --ink:#1d1f1a; --mute:#62675c;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#111311; --panel:#1a1d19; --line:#2b2f29; --ink:#ecefe7; --mute:#a1a89a; }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    min-height:100vh; background:var(--bg); color:var(--ink);
+    font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    display:flex; flex-direction:column;
+  }
+  main{width:min(820px,92vw); margin:0 auto; padding:clamp(40px,9vh,96px) 0 48px; flex:1}
+  h1{font-family:Georgia,"Times New Roman",serif; font-weight:600; font-size:clamp(2.3rem,6vw,3.8rem); line-height:1.05; margin:0 0 12px; letter-spacing:-.015em}
+  .lead{color:var(--mute); max-width:48ch; margin:0 0 40px; font-size:1.05rem}
+  .list{display:flex; flex-direction:column; gap:14px}
+  a.row{
+    display:grid; grid-template-columns:56px 1fr auto; align-items:center; gap:18px;
+    padding:20px 22px; border-radius:16px; background:var(--panel); border:1px solid var(--line);
+    color:var(--ink); text-decoration:none; transition:border-color .18s ease, transform .18s ease;
+  }
+  a.row:hover, a.row:focus-visible{border-color:var(--accent); transform:translateX(4px); outline:none}
+  .num{
+    width:56px; height:56px; border-radius:14px; display:grid; place-items:center;
+    font-family:Georgia,serif; font-size:1.5rem; font-weight:600; color:#fff; background:var(--accent);
+  }
+  .row h2{margin:0 0 2px; font-size:1.2rem}
+  .row p{margin:0; color:var(--mute); font-size:.93rem}
+  .arrow{font-size:1.4rem; color:var(--accent)}
+  .enes{--accent:#1f4e8c}
+  .sofl{--accent:#c2410c}
+  .sudis{--accent:#4d7c5a}
+  @media (max-width:520px){ a.row{grid-template-columns:44px 1fr} .num{width:44px;height:44px;font-size:1.2rem} .arrow{display:none} }
+  footer{width:min(820px,92vw); margin:0 auto; padding:22px 0 30px; border-top:1px solid var(--line); color:var(--mute); font-size:.85rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>DersForAll</h1>
+  <p class="lead">Arkadaşlar için hazırlanan üç çalışma sitesi. Birini seç, kendi temasıyla açılsın.</p>
+
+  <div class="list">
+    <a class="row enes" href="enesders/">
+      <span class="num">1</span>
+      <span><h2>EnesDers · Vize çalışma</h2><p>5 ders: fide, genetik, kanatlı, tahıl ve gıda.</p></span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="row sofl" href="sofl1115/">
+      <span class="num">2</span>
+      <span><h2>SoFL 1115 · İngilizce A1</h2><p>Kelime, dilbilgisi, dinleme denemeleri. İçinde MBP1104 Python bölümü de var.</p></span>
+      <span class="arrow">→</span>
+    </a>
+    <a class="row sudis" href="sudis/">
+      <span class="num">3</span>
+      <span><h2>Sudis · Çalışma</h2><p>Göç tarihi, kültürlerarası edebiyat, siyasi ve hukuki koşullar.</p></span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</main>
+<footer>DersForAll · GitHub Pages</footer>
+</body>
+</html>

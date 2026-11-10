@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vize Çalışma</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%232f6bf0%22/%3E%3Cpath d=%22M9 17l5 5 9-11%22 stroke=%22white%22 stroke-width=%223.5%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+  try { var t = localStorage.getItem('enesders-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="#/">Vize Çalışma</a>
+    <nav class="courses" id="courseNav"></nav>
+    <button class="theme" id="themeBtn" type="button" title="Tema değiştir">Açık tema</button>
+  </div>
+</header>
+<main id="app"></main>
+<footer class="foot">Notlardaki bilgilere göre hazırlanmıştır. Notta olmayan konu eklenmemiştir.</footer>
+
+<script src="assets/app.js"></script>
+<script src="data/tahil.js"></script>
+<script src="data/kanatli.js"></script>
+<script src="data/genetik.js"></script>
+<script src="data/gida.js"></script>
+<script src="data/fide.js"></script>
+<script>App.start();</script>
+</body>
+</html>
