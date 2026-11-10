@@ -29,30 +29,38 @@
   .lead{color:var(--mute); max-width:46ch; margin:0 0 48px; font-size:1.05rem}
 
   /* ---------- kartlar ---------- */
-  .grid{display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .grid{display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  /* Kart dinlenirken %94, üstüne gelince tam boy (1:1): son hâl hiç ölçeklenmediği için yazılar net kalır. */
   a.card{
-    display:block; height:260px; text-decoration:none; color:inherit;
-    perspective:1100px; border-radius:18px; outline:none;
-    transition:transform .55s cubic-bezier(.34,1.45,.55,1);
-    position:relative; z-index:0;
+    display:block; height:276px; text-decoration:none; color:inherit; border-radius:18px; outline:none;
+    position:relative; z-index:0; perspective:1200px;
+    transform:scale(.94); transition:transform .55s cubic-bezier(.34,1.45,.55,1);
   }
   .flip{
     position:relative; width:100%; height:100%;
     transform-style:preserve-3d;
-    transition:transform .9s cubic-bezier(.45,.05,.2,1.15);
+    transition:transform .85s cubic-bezier(.45,.05,.2,1.12);
   }
   .face{
     position:absolute; inset:0; border-radius:18px; overflow:hidden;
     backface-visibility:hidden; -webkit-backface-visibility:hidden;
     display:flex; flex-direction:column; gap:10px; padding:24px;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   }
+  .face > *{position:relative; z-index:1}
   .front{background:var(--panel); border:1px solid var(--line)}
   .front::before{content:""; position:absolute; inset:0 0 auto 0; height:5px; background:var(--accent)}
   .back{transform:rotateY(180deg)}
 
-  a.card:hover, a.card:focus-visible{transform:scale(1.07); z-index:2}
-  a.card:hover .flip, a.card:focus-visible .flip{transform:rotateY(180deg)}
+  a.card.hov{transform:scale(1); z-index:2}
+  a.card.flipped .flip{transform:rotateY(180deg)}
+  /* Dönüş bitince: 3B katman kalkar, arka yüz düz ve net çizilir */
+  a.card.settled .flip{transform:none; transform-style:flat; transition:none}
+  a.card.settled .front{visibility:hidden}
+  a.card.settled .back{transform:none}
+  a.card.snap .flip{transition:none}
   a.card:focus-visible .face{box-shadow:0 0 0 3px var(--accent)}
+  @media (hover:hover){ a.card:not(.hov):hover{transform:scale(.96)} }
 
   .tag{
     align-self:flex-start; font-size:.72rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
@@ -106,18 +114,35 @@
   .sudis .topics span:first-child{background:#e3ece5; border-color:#c8d9cd; color:#47705b}
   .sudis .go{color:#5f8a74; font-weight:800}
 
-  /* dokunmatik ve az hareket */
-  @media (hover:none){ a.card:hover{transform:none} a.card:hover .flip{transform:none} }
-  @media (prefers-reduced-motion: reduce){
-    a.card, .flip{transition:none}
-    a.card:hover{transform:none}
-    a.card:hover .flip, a.card:focus-visible .flip{transform:none}
-    .back{transform:none; opacity:0; transition:opacity .25s}
-    a.card:hover .back, a.card:focus-visible .back{opacity:1}
-  }
+  /* ---------- arka yüzde isimler ---------- */
+  .wm{position:absolute !important; z-index:0 !important; right:-4px; bottom:-14px; line-height:1; font-weight:800;
+      letter-spacing:-.03em; pointer-events:none; white-space:nowrap; user-select:none}
+  .enes .wm{font-size:6rem; bottom:-10px; color:transparent; background:linear-gradient(180deg,#5b95ff,#2f6bf0); -webkit-background-clip:text; background-clip:text; opacity:.42}
+  .sofl .wm{font-size:3.6rem; right:12px; bottom:2px; color:#8fb3d9; opacity:.2}
+  .sudis .wm{font-family:"Nunito",system-ui,sans-serif; font-size:5.2rem; right:-2px; bottom:8px; color:#5f8a74; opacity:.24}
+  .sudis .back .b-title{display:none}
+
+  /* dokunmatik: takla yok, kart düz kalır */
+  @media (hover:none){ a.card{transform:none} }
+  @media (prefers-reduced-motion: reduce){ a.card,.flip{transition:none} a.card{transform:none} a.card.hov{transform:none} }
 
   footer{width:min(1120px,92vw); margin:0 auto; padding:22px 0 30px; border-top:1px solid var(--line); color:var(--mute); font-size:.85rem}
 </style>
+<style id="vt-slide">
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:.5s cubic-bezier(.65,0,.25,1) both vt-out-l}
+::view-transition-new(root){animation:.5s cubic-bezier(.65,0,.25,1) both vt-in-r}
+html:active-view-transition-type(back)::view-transition-old(root){animation-name:vt-out-r}
+html:active-view-transition-type(back)::view-transition-new(root){animation-name:vt-in-l}
+@keyframes vt-out-l{to{transform:translateX(-100%)}}
+@keyframes vt-in-r{from{transform:translateX(100%)}}
+@keyframes vt-out-r{to{transform:translateX(100%)}}
+@keyframes vt-in-l{from{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+</style>
+<script id="vt-dir">
+addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=navigation.activation;if(!a||!a.from)return;var d=function(u){return new URL(u).pathname.replace(/index\.html$/,'').split('/').filter(Boolean).length};e.viewTransition.types.add(d(a.entry.url)<d(a.from.url)?'back':'forward')}catch(_){}});
+</script>
 </head>
 <body>
 <main>
@@ -135,6 +160,7 @@
           <span class="hint">Lacivert tema</span>
         </div>
         <div class="face back" aria-hidden="true">
+          <span class="wm">Enes</span>
           <span class="b-title">Vize Çalışma</span>
           <span class="b-sub">Konu anlatımı ve testler</span>
           <div class="chips"><span>Fide</span><span>Genetik</span><span>Kanatlı</span><span>Tahıl</span><span>Gıda</span></div>
@@ -152,6 +178,7 @@
           <span class="hint">Koyu gri tema</span>
         </div>
         <div class="face back" aria-hidden="true">
+          <span class="wm">Mustağfi</span>
           <div class="ui-bar"><i class="on">İngilizce</i><i>Python</i><i>Testler</i></div>
           <div class="ui-body">
             <div class="q">She ___ a student.
@@ -172,6 +199,7 @@
           <span class="hint">Sakin tema</span>
         </div>
         <div class="face back" aria-hidden="true">
+          <span class="wm">Sudiş</span>
           <span class="b-title">Sudis</span>
           <div class="topics"><span>Göç tarihi</span><span>Kültürlerarası edebiyat</span><span>Siyasi-hukuki koşullar</span></div>
           <span class="go">Siteyi aç →</span>
@@ -181,5 +209,29 @@
   </div>
 </main>
 <footer>DersForAll · GitHub Pages</footer>
+<script>
+(function(){
+  if (matchMedia('(hover: none)').matches) return;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cards = [].slice.call(document.querySelectorAll('a.card'));
+  cards.forEach(function(c){
+    var f = c.querySelector('.flip'), want = false;
+    function on(){ want = true; c.classList.add('hov'); if (reduce) c.classList.add('settled'); else c.classList.add('flipped'); }
+    function off(){
+      want = false;
+      if (c.classList.contains('settled') && !reduce){
+        c.classList.add('snap'); c.classList.remove('settled'); void f.offsetWidth; c.classList.remove('snap');
+      }
+      c.classList.remove('hov','flipped','settled');
+    }
+    f.addEventListener('transitionend', function(e){
+      if (e.target === f && e.propertyName === 'transform' && want && c.classList.contains('flipped')) c.classList.add('settled');
+    });
+    c.addEventListener('mouseenter', on); c.addEventListener('mouseleave', off);
+    c.addEventListener('focus', on); c.addEventListener('blur', off);
+  });
+  addEventListener('pageshow', function(e){ if (e.persisted) cards.forEach(function(c){ c.classList.remove('hov','flipped','settled','snap'); }); });
+})();
+</script>
 </body>
 </html>
