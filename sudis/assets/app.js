@@ -65,6 +65,14 @@
     app.innerHTML =
       '<section class="hero"><h1>' + fmt(g) + '</h1></section>' +
       '<section class="cards">' + cards + '</section>' +
+      (window.AlmancaKitap ? '<h2 class="sec-h">Almanca</h2><section class="cards two">' +
+        '<a class="card de" href="#almanca"><span class="num">DE</span><h2>Almanca Kitap Özeti</h2><p class="auth">Dreyer / Schmitt · Grammatik aktuell</p>' +
+        '<p class="desc">Kitabın tüm konuları sırasıyla Türkçe özet, mini notlar ve cevap anahtarlı alıştırmalarla.</p>' +
+        '<div class="meta"><span>' + window.AlmancaKitap.count() + ' bölüm</span><span>Teil I–V</span></div></a>' +
+        '<a class="card de" href="#sozluk"><span class="num">Wö</span><h2>Almanca Sözlük</h2><p class="auth">Goethe Wortliste · A1, A2, B1</p>' +
+        '<p class="desc">Listelerdeki tüm kelimeler flashcard olarak; arka yüzde Türkçe anlamı.</p>' +
+        '<div class="meta"><span>' + (window.Sozluk ? window.Sozluk.size : 0) + ' kelime</span><span>Biliyorum / tekrar</span></div></a>' +
+        '</section>' : '') +
       (window.SudisQuiz ? window.SudisQuiz.homeSection() : '');
   }
 
@@ -144,11 +152,20 @@
     app.querySelectorAll('.topic').forEach(function (t) { obs.observe(t); });
   }
 
+  /* üst menüde etkin sekme */
+  function navOn(p0) {
+    var k = p0 === 'almanca' ? 'almanca' : p0 === 'sozluk' ? 'sozluk' : 'ders';
+    document.querySelectorAll('.tabs a').forEach(function (a) { a.classList.toggle('on', a.dataset.k === k); });
+  }
+
   /* ---------- yönlendirme ---------- */
   function route() {
     var h = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
     var parts = h.split('/');
+    navOn(parts[0]);
     if (parts[0] === 'test' && window.SudisQuiz) { app.dataset.subj = ''; return window.SudisQuiz.render(app, parts[1]); }
+    if (parts[0] === 'almanca' && window.AlmancaKitap) return window.AlmancaKitap.render(app, parts[1]);
+    if (parts[0] === 'sozluk' && window.Sozluk) return window.Sozluk.render(app);
     var s = findSubj(parts[0]);
     if (!s) return home();
     // aynı derste başka başlığa geçişte sayfayı yeniden çizme
@@ -160,7 +177,8 @@
     app.dataset.subj = s.id;
   }
   window.addEventListener('hashchange', function () {
-    if (!findSubj(location.hash.replace(/^#\/?/, '').split('/')[0])) app.dataset.subj = '';
+    var p0 = location.hash.replace(/^#\/?/, '').split('/')[0];
+    if (!findSubj(p0) && p0 !== 'almanca') app.dataset.subj = '';
     route();
   });
 

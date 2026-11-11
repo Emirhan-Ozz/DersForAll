@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sudis · Çalışma</title>
   <meta name="description" content="Göç tarihi, kültürlerarası edebiyat ve siyasi-hukuki koşullar için sade çalışma sitesi.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='%235f8a74'/><text x='50' y='66' font-size='48' text-anchor='middle' fill='white' font-family='sans-serif'>S</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='%237fa61a'/><text x='50' y='66' font-size='48' text-anchor='middle' fill='white' font-family='sans-serif'>S</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=202611110008">
+  <link rel="stylesheet" href="assets/style.css?v=202611110331">
   <script>
     try { var t = localStorage.getItem('sudis-tema'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
@@ -33,15 +33,24 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
 <body>
   <header class="top">
     <a class="brand" href="#">Sudis</a>
+    <nav class="tabs" aria-label="Bölümler">
+      <a href="#" data-k="ders">Dersler</a>
+      <a href="#almanca" data-k="almanca">Kitap Özeti</a>
+      <a href="#sozluk" data-k="sozluk">Sözlük</a>
+    </nav>
     <button class="theme" id="themeBtn" type="button" aria-label="Temayı değiştir">◐</button>
   </header>
   <main id="app"></main>
   <footer class="foot">Kaynak: ders PDF'leri</footer>
-  <script src="assets/content.js?v=202611110008"></script>
-  <script src="assets/questions.js?v=202611110008"></script>
-  <script src="assets/quiz.js?v=202611110008"></script>
-  <script src="assets/app.js?v=202611110008"></script>
-  <script src="assets/sudis-sorular.js?v=202611110008"></script>
-  <script src="assets/sorular-menu.js?v=202611110008"></script>
+  <script src="assets/content.js?v=202611110330"></script>
+  <script src="assets/questions.js?v=202611110330"></script>
+  <script src="assets/quiz.js?v=202611110330"></script>
+  <script src="assets/almanca.js?v=202611110330"></script>
+  <script src="assets/almanca-kitap.js?v=202611110330"></script>
+  <script src="assets/sozluk-data.js?v=202611110330"></script>
+  <script src="assets/sozluk.js?v=202611110330"></script>
+  <script src="assets/app.js?v=202611110330"></script>
+  <script src="assets/sudis-sorular.js?v=202611110330"></script>
+  <script src="assets/sorular-menu.js?v=202611110330"></script>
 </body>
 </html>
