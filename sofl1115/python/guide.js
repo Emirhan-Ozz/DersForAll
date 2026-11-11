@@ -13,17 +13,27 @@ window.PYGUIDE = `
   <tr><td>Sonluluk</td><td>Her olasılıkta sonlu adımda bitmeli</td></tr>
   <tr><td>Etkinlik</td><td>Kalem-kâğıtla yapılabilecek kadar basit</td></tr>
 </table>
-<h3>Şekiller</h3>
-<table class="format">
-  <tr><th>Şekil</th><th>Ne için</th><th>Örnek</th></tr>
-  <tr><td>Elips</td><td>Başla / Bitir</td><td><code>Başla</code></td></tr>
-  <tr><td>Paralelkenar</td><td>Veri girişi</td><td><code>A,B</code></td></tr>
-  <tr><td>Dikdörtgen</td><td>İşlem, atama, hesaplama</td><td><code>Toplam=X+Y</code></td></tr>
-  <tr><td>Eşkenar dörtgen (baklava)</td><td>Karar alma (koşul), E/H çıkışlı</td><td><code>Mod==0</code></td></tr>
-  <tr><td>Alt kenarı dalgalı dikdörtgen</td><td>Yazdırma (ekrana çıktı)</td><td><code>Toplam</code></td></tr>
-  <tr><td>Ok</td><td>Akış yönü</td><td></td></tr>
-  <tr><td>Küçük daire</td><td>Birleştirici, bağlantı noktası</td><td></td></tr>
-</table>
+<h3>Şekiller (özet)</h3>
+<p>Akış diyagramında şeklin <b>biçimi</b> adımın türünü, <b>içindeki yazı</b> ne yapıldığını söyler. Sınavda en çok kutu doldurma soruluyor: önce şekle bak, sonra içine uygun şeyi yaz.</p>
+<div class="shapes">
+  <div class="shape"><svg viewBox="0 0 76 48" aria-hidden="true"><ellipse cx="38" cy="24" rx="34" ry="15"/><text x="38" y="28" text-anchor="middle">Başla</text></svg><b>Elips (oval)</b><div class="ne">Başlangıç ve bitiş. Her diyagramda bir Başla, bir Bitir olur. · İçine: <code>Başla</code> / <code>Bitir</code></div><div class="py">Python: programın ilk ve son satırı</div></div>
+  <div class="shape"><svg viewBox="0 0 76 48" aria-hidden="true"><polygon points="16,9 74,9 60,39 2,39"/><text x="38" y="28" text-anchor="middle">A,B</text></svg><b>Paralelkenar</b><div class="ne">Veri girişi: kullanıcıdan değer alınır. · İçine: değişken adları, virgülle</div><div class="py">Python: <code>a = int(input())</code></div></div>
+  <div class="shape"><svg viewBox="0 0 76 48" aria-hidden="true"><rect x="4" y="9" width="68" height="30"/><text x="38" y="28" text-anchor="middle">T=X+Y</text></svg><b>Dikdörtgen</b><div class="ne">İşlem: atama, hesaplama, sayaç artırma. · İçine: <code>=</code> ile bir atama</div><div class="py">Python: <code>t = x + y</code>, <code>sayac += 1</code></div></div>
+  <div class="shape"><svg viewBox="0 0 76 48" aria-hidden="true"><polygon points="38,3 74,24 38,45 2,24"/><text x="38" y="28" text-anchor="middle">A&gt;B</text></svg><b>Eşkenar dörtgen (baklava)</b><div class="ne">Karar: koşul doğruysa E, yanlışsa H okundan devam edilir. İki çıkışı olan tek şekil. · İçine: karşılaştırma (<code>&gt; &lt; == &gt;= !=</code>)</div><div class="py">Python: <code>if</code> / <code>else</code>; geri dönen okla <code>while</code></div></div>
+  <div class="shape"><svg viewBox="0 0 76 48" aria-hidden="true"><path d="M4,8 H72 V38 Q55,31 38,38 T4,38 Z"/><text x="38" y="26" text-anchor="middle">T</text></svg><b>Alt kenarı dalgalı (belge)</b><div class="ne">Yazdırma: sonuç ekrana çıkar. · İçine: yazdırılacak değişken ya da "metin"</div><div class="py">Python: <code>print(t)</code></div></div>
+  <div class="shape"><svg viewBox="0 0 76 48" aria-hidden="true"><polygon points="14,9 62,9 74,24 62,39 14,39 2,24"/><text x="38" y="28" text-anchor="middle">i=1,10</text></svg><b>Altıgen</b><div class="ne">Döngü (slaytta geçiyor). Hoca döngüyü genelde baklava ve geri dönen okla çiziyor. · İçine: sayaç ve sınırları</div><div class="py">Python: <code>for i in range(1, 11)</code></div></div>
+  <div class="shape"><svg viewBox="0 0 76 48" aria-hidden="true"><path d="M6,24 H66" fill="none"/><path d="M60,18 L70,24 L60,30 Z" style="fill:currentColor"/></svg><b>Ok</b><div class="ne">Akış yönü: adımların sırasını gösterir. Şeklin ortasına bağlanır. · İçine: karar oklarının yanına E / H</div><div class="py">Python: satır sırası</div></div>
+  <div class="shape"><svg viewBox="0 0 76 48" aria-hidden="true"><circle cx="38" cy="24" r="9"/></svg><b>Küçük daire</b><div class="ne">Birleştirici: ayrılan E/H dalları burada tekrar birleşir. · İçine: boş bırakılır</div><div class="py">Python: <code>if</code> bloğu bitince devam eden satır</div></div>
+</div>
+<div class="ruleset"><b>Hızlı kurallar</b>
+<ul>
+  <li>Hep <b>Başla</b> ile başlar, <b>Bitir</b> ile biter. Oklar yukarıdan aşağı akar.</li>
+  <li>Giriş kutusuna hesap yazılmaz (<code>A,B</code>), işlem kutusuna giriş yazılmaz (<code>T=A+B</code>).</li>
+  <li>Baklavadan iki ok çıkar: <b>E</b> (evet, koşul doğru) ve <b>H</b> (hayır). Dikdörtgenden tek ok çıkar.</li>
+  <li>Döngü = baklava + yukarı geri dönen ok. Ok, giriş kutusuna değil tekrar edilecek işleme döner.</li>
+  <li>Başlangıç değerleri ayrı dikdörtgenlerde: toplam/sayaç için <code>0</code>, çarpım/faktöriyel için <code>1</code>.</li>
+</ul></div>
+<p class="small muted">Şekillerin büyük çizimi ve hocanın örnek diyagramları: <a href="#/notlar/algoritma">Ders notları → Algoritma</a>.</p>
 <ul>
   <li>Türleri: <b>doğrusal</b> (giriş → işlem → çıkış), <b>mantıksal</b> (karar ile dallanır), <b>döngüsel</b> (bazı adımlar tekrar eder).</li>
   <li>Döngüde sayaç önce ilk değerini alır (<code>sayac=0</code>), işlem yapılır, sayaç artar (<code>sayac=sayac+1</code>), karar kutusunda koşul doğruysa (E) geri dönülür, yanlışsa (H) devam edilir.</li>

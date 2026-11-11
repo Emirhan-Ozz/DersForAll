@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SoFL 1115 · Vize Çalışma</title>
 <meta name="theme-color" content="#1c1f24">
-<link rel="stylesheet" href="assets/style.css?v=2c1a9e01">
+<link rel="stylesheet" href="assets/style.css?v=20261111s">
 <style id="vt-slide">
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:.5s cubic-bezier(.65,0,.25,1) both vt-out-l}
@@ -33,6 +33,8 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
   </nav>
 </header>
 <main id="app"></main>
+<script>try{new ResizeObserver(function(e){document.documentElement.style.setProperty("--toph",e[0].target.offsetHeight+"px")}).observe(document.querySelector(".top"))}catch(_){}</script>
+
 <footer class="foot">Listening 30 · Reading 50 · Writing 20 · Süre 60 dk</footer>
 <script src="assets/data.js?v=a81e7241"></script>
 <script src="assets/guide.js?v=bf492352"></script>
