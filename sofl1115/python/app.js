@@ -130,11 +130,11 @@
       }
       if (q.t === 'code') {
         const ta = el.querySelector('textarea');
-        ta.value = store.get(`code-${ex.id}-${i}`, '');
+        ta.value = store.get(`code-${q._wid ? q._wid.replace(":", "-") : ex.id + "-" + i}`, '');
         ta.addEventListener('keydown', e => {
           if (e.key === 'Tab') { e.preventDefault(); const s = ta.selectionStart; ta.setRangeText('    ', s, ta.selectionEnd, 'end'); }
         });
-        ta.addEventListener('input', () => { store.set(`code-${ex.id}-${i}`, ta.value); el.dataset.touched = 1; count(); });
+        ta.addEventListener('input', () => { store.set(`code-${q._wid ? q._wid.replace(":", "-") : ex.id + "-" + i}`, ta.value); el.dataset.touched = 1; count(); });
         el.querySelector('.run').addEventListener('click', () => grade(i));
         el.querySelector('.showsol').addEventListener('click', () => { el.querySelector('.sol').hidden = false; });
       }
