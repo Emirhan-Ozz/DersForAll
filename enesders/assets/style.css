@@ -199,3 +199,55 @@ input.wrong { border-color: var(--bad); }
   .progress { top: 94px; }
   th, td { padding: 5px 6px; font-size: 13px; }
 }
+
+/* ===== canlı katman: lacivert taban korunur, elektrik mavisi + turkuaz vurgular ===== */
+:root, [data-theme="dark"] { --cyan: #4fd1e8; --violet: #8f8cff; --glow: rgba(91, 149, 255, .22); --h: var(--accent); }
+[data-theme="light"] { --cyan: #0b93ad; --violet: #5a54d6; --glow: rgba(36, 89, 214, .16); }
+body {
+  background:
+    radial-gradient(900px 480px at 12% -8%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%),
+    radial-gradient(760px 420px at 100% 0%, color-mix(in srgb, var(--cyan) 13%, transparent), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+}
+.top { background: color-mix(in srgb, var(--bg2) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 0; }
+.top::after { content: ""; display: block; height: 2px; background: linear-gradient(90deg, var(--accent2), var(--accent) 35%, var(--cyan) 70%, var(--violet)); opacity: .85; }
+.brand { background: linear-gradient(90deg, var(--text) 10%, var(--accent) 60%, var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.courses a.on { background: linear-gradient(135deg, var(--accent2), var(--accent) 60%, var(--cyan)); border-color: transparent; color: #fff; box-shadow: 0 4px 16px var(--glow); }
+.courses a:hover { border-color: var(--accent); }
+h1 { letter-spacing: -.01em; }
+h1::after { content: ""; display: block; width: 56px; height: 4px; margin-top: 8px; border-radius: 99px; background: linear-gradient(90deg, var(--accent), var(--cyan)); }
+h2 { display: flex; align-items: center; gap: 10px; }
+h2::before { content: ""; width: 4px; height: 1.05em; border-radius: 99px; background: linear-gradient(180deg, var(--cyan), var(--accent)); flex: none; }
+.tabs a.on { color: var(--text); background: none; box-shadow: inset 0 -3px 0 var(--accent), 0 3px 0 -1px color-mix(in srgb, var(--cyan) 40%, transparent); }
+
+.grid > .card:nth-child(5n+1) { --h: var(--accent); }
+.grid > .card:nth-child(5n+2) { --h: var(--cyan); }
+.grid > .card:nth-child(5n+3) { --h: var(--violet); }
+.grid > .card:nth-child(5n+4) { --h: #3fc7a4; }
+.grid > .card:nth-child(5n+5) { --h: #6fb6ff; }
+[data-theme="light"] .grid > .card:nth-child(5n+4) { --h: #13906f; }
+[data-theme="light"] .grid > .card:nth-child(5n+5) { --h: #2a7fd6; }
+.card { position: relative; overflow: hidden; background: linear-gradient(165deg, color-mix(in srgb, var(--h) 9%, var(--card)), var(--card) 60%); transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--h), color-mix(in srgb, var(--h) 30%, transparent)); }
+a.card:hover { transform: translateY(-2px); border-color: var(--h); box-shadow: 0 10px 28px color-mix(in srgb, var(--h) 22%, transparent); }
+.card .t { color: var(--text); }
+.card .meta > * { padding: 1px 9px; border-radius: 99px; background: color-mix(in srgb, var(--h) 14%, transparent); color: color-mix(in srgb, var(--h) 70%, var(--text)); font-weight: 600; }
+.card.featured { border-color: var(--h); }
+.badge { background: color-mix(in srgb, var(--accent) 14%, transparent); border-color: color-mix(in srgb, var(--accent) 35%, transparent); color: color-mix(in srgb, var(--accent) 70%, var(--text)); }
+
+.traps { border-left: 3px solid var(--accent); background: linear-gradient(110deg, color-mix(in srgb, var(--accent) 8%, var(--card)), var(--card) 55%); }
+.traps li::marker { color: var(--cyan); }
+main ol li::marker { color: var(--accent); font-weight: 700; }
+.topic { border-left: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); }
+.topic h3 { color: color-mix(in srgb, var(--accent) 55%, var(--text)); }
+th { background: color-mix(in srgb, var(--accent) 12%, var(--card)); }
+.btn { background: linear-gradient(135deg, var(--accent2), var(--accent)); box-shadow: 0 4px 14px var(--glow); }
+.btn.ghost { background: transparent; box-shadow: none; }
+.bar i { background: linear-gradient(90deg, var(--accent), var(--cyan)); }
+.q { border-left: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); }
+.q.ok { border-left-color: var(--good); } .q.no { border-left-color: var(--bad); }
+.qnum { color: var(--cyan); }
+.opt.sel { box-shadow: 0 0 0 1px var(--accent) inset; }
+.seg button.on { background: linear-gradient(135deg, var(--accent2), var(--accent)); color: #fff; }
+.result .big { background: linear-gradient(90deg, var(--accent), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }

@@ -72,16 +72,22 @@
   .hint{margin-top:auto; font-size:.8rem; color:var(--mute)}
   .go{margin-top:auto; font-weight:600; font-size:.9rem}
 
-  /* ---------- EnesDers · lacivert ---------- */
+  /* ---------- EnesDers · lacivert, canlı ---------- */
   .enes{--accent:#5b95ff}
-  .enes .back{background:#0a1530; color:#e8eeff; border:1px solid #24407a; box-shadow:0 6px 24px rgba(0,0,0,.28);
-    background-image:linear-gradient(160deg,#0d1b3d,#0a1530 60%)}
-  .enes .b-title{font-weight:800; font-size:1.45rem}
+  .enes .front::before{background:linear-gradient(90deg,#2f6bf0,#5b95ff 45%,#4fd1e8)}
+  .enes .back{color:#e8eeff; border:1px solid #2a4a8c; box-shadow:0 8px 28px rgba(20,60,160,.35);
+    background:radial-gradient(circle at 100% 0%, rgba(79,209,232,.22), transparent 55%), radial-gradient(circle at 0% 100%, rgba(91,149,255,.25), transparent 55%), linear-gradient(160deg,#0f2150,#0a1530 65%)}
+  .enes .back::before{content:""; position:absolute; inset:0 0 auto 0; height:3px; background:linear-gradient(90deg,#2f6bf0,#5b95ff 40%,#4fd1e8 75%,#8f8cff)}
+  .enes .b-title{font-weight:800; font-size:1.45rem; background:linear-gradient(90deg,#fff 20%,#8fbaff 60%,#4fd1e8); -webkit-background-clip:text; background-clip:text; color:transparent}
   .enes .b-sub{color:#9fb1da; font-size:.85rem}
   .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:2px}
-  .enes .chips span{background:#12244d; border:1px solid #24407a; color:#e8eeff; padding:4px 10px; border-radius:999px; font-size:.78rem}
-  .enes .chips span:first-child{background:#2f6bf0; border-color:#5b95ff}
-  .enes .go{color:#5b95ff}
+  .enes .chips span{background:rgba(18,36,77,.8); border:1px solid #2a4a8c; color:#e8eeff; padding:4px 10px; border-radius:999px; font-size:.78rem}
+  .enes .chips span:nth-child(1){background:linear-gradient(135deg,#2f6bf0,#5b95ff); border-color:transparent}
+  .enes .chips span:nth-child(2){border-color:rgba(79,209,232,.6); color:#9be6f3}
+  .enes .chips span:nth-child(3){border-color:rgba(143,140,255,.6); color:#c3c1ff}
+  .enes .chips span:nth-child(4){border-color:rgba(63,199,164,.6); color:#8ee0c8}
+  .enes .chips span:nth-child(5){border-color:rgba(111,182,255,.6); color:#a9d2ff}
+  .enes .go{color:#7fb0ff}
 
   .ui-bar{display:flex; gap:6px; align-items:center; padding:12px 16px; border-bottom:1px solid}
   .ui-bar i{display:block; padding:4px 10px; border-radius:7px; font-style:normal; font-size:.78rem}
@@ -89,18 +95,21 @@
   .ui-body{padding:14px 16px; display:flex; flex-direction:column; gap:10px; flex:1}
   .ui-body .go{margin-top:auto}
 
-  /* ---------- SoFL 1115 · koyu gri ---------- */
+  /* ---------- SoFL 1115 · koyu gri + çelik mavisi, canlı ---------- */
   .sofl{--accent:#8fb3d9}
-  .sofl .back{background:#1c1f24; color:#e4e6ea; border:1px solid #363c46; padding:0}
-  .sofl .ui-bar{background:#252930; border-color:#363c46}
+  .sofl .front::before{background:linear-gradient(90deg,#6f95c2,#8fb3d9 45%,#b4a9ea)}
+  .sofl .back{color:#e4e6ea; border:1px solid #3d4552; padding:0; box-shadow:0 8px 26px rgba(0,0,0,.35);
+    background:radial-gradient(circle at 100% 0%, rgba(180,169,234,.16), transparent 55%), radial-gradient(circle at 0% 100%, rgba(143,179,217,.16), transparent 55%), #1c1f24}
+  .sofl .ui-bar{background:rgba(37,41,48,.9); border-color:#363c46; position:relative}
+  .sofl .ui-bar::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:linear-gradient(90deg,#6f95c2,#8fb3d9 40%,#b4a9ea 75%,transparent)}
   .sofl .ui-bar i{color:#9aa1ab}
-  .sofl .ui-bar i.on{background:rgba(143,179,217,.15); color:#8fb3d9}
+  .sofl .ui-bar i.on{background:linear-gradient(135deg,rgba(143,179,217,.3),rgba(180,169,234,.22)); color:#fff}
   .sofl .ui-body{gap:9px}
-  .q{background:#252930; border:1px solid #363c46; border-radius:10px; padding:10px 12px; font-size:.86rem}
+  .q{background:linear-gradient(165deg,rgba(143,179,217,.12),#252930 60%); border:1px solid #363c46; border-left:3px solid rgba(143,179,217,.6); border-radius:10px; padding:10px 12px; font-size:.86rem}
   .q b{color:#8fb3d9; font-family:ui-monospace,Consolas,monospace; font-weight:600}
   .opts{display:flex; gap:6px; margin-top:8px}
   .opts span{flex:1; text-align:center; padding:4px 0; border-radius:7px; background:#2c3139; border:1px solid #363c46; font-size:.78rem}
-  .opts span.ok{border-color:#7fbf8e; color:#7fbf8e; background:rgba(127,191,142,.12)}
+  .opts span.ok{border-color:#8fd1bf; color:#8fd1bf; background:rgba(143,209,191,.14)}
   .sofl .go{color:#8fb3d9}
 
   /* ---------- Sudis · yumuşak lime ---------- */
@@ -117,8 +126,8 @@
   /* ---------- arka yüzde isimler ---------- */
   .wm{position:absolute !important; z-index:0 !important; left:0; right:0; text-align:center; bottom:-14px; line-height:1.35; padding:.12em 0; font-weight:800;
       letter-spacing:-.03em; pointer-events:none; white-space:nowrap; user-select:none}
-  .enes .wm{font-size:4.6rem; bottom:34px; color:transparent; background:linear-gradient(180deg,#5b95ff,#2f6bf0); -webkit-background-clip:text; background-clip:text; opacity:.42}
-  .sofl .wm{font-size:3rem; bottom:40px; color:#8fb3d9; opacity:.2}
+  .enes .wm{font-size:4.6rem; bottom:34px; color:transparent; background:linear-gradient(180deg,#4fd1e8,#5b95ff 55%,#2f6bf0); -webkit-background-clip:text; background-clip:text; opacity:.42}
+  .sofl .wm{font-size:3rem; bottom:40px; color:transparent; background:linear-gradient(180deg,#b4a9ea,#8fb3d9); -webkit-background-clip:text; background-clip:text; opacity:.32}
   .sudis .wm{font-family:"Nunito",system-ui,sans-serif; font-size:4.2rem; bottom:42px; color:#8fbf0a; opacity:.3}
   .sudis .back .b-title{display:none}
 
