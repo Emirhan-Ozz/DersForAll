@@ -6,10 +6,10 @@
   var SEEN = 'sudis-gorulen', BEST = 'sudis-test-en-iyi', CUR = 'sudis-aktif-test';
 
   /* ---------- metin normalleştirme ---------- */
-  var MAP = { 'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u', 'â': 'a', 'î': 'i', 'û': 'u', 'ä': 'a', 'ß': 'ss', 'é': 'e', 'č': 'c', 'ć': 'c', 'š': 's' };
+  var MAP = { 'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u', 'â': 'a', 'î': 'i', 'û': 'u', 'ä': 'a', 'ß': 'ss', 'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'ç': 'c', 'č': 'c', 'ć': 'c', 'š': 's' };
   function tokens(s) {
     s = String(s || '').replace(/İ/g, 'i').replace(/I/g, 'ı').toLowerCase();
-    s = s.replace(/[çğıöşüâîûäßéčćš]/g, function (c) { return MAP[c]; });
+    s = s.replace(/[çğıöşüâîûäßéèêàčćš]/g, function (c) { return MAP[c]; });
     s = s.replace(/(\d)\.(?=\d{3}(\D|$))/g, '$1');           // 1.118.000 → 1118000
     return s.replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter(Boolean);
   }
