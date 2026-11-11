@@ -197,7 +197,7 @@ blockquote { margin: 10px 0; padding: 6px 14px; border-left: 3px solid var(--acc
 
 /* ---------- testler ---------- */
 .sec-h { margin: 52px 0 16px; font-size: 1.5rem; font-weight: 800; }
-.tcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.tcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
 @media (max-width: 1000px) { .tcards { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .tcards { grid-template-columns: 1fr; } }
 .tcard h2 { margin: 12px 0 2px; font-size: 1.12rem; }

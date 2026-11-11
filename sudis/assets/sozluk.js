@@ -34,8 +34,9 @@
   }
 
   var app = null, keyBound = false;
-  function render(a) {
+  function render(a, q) {
     app = a;
+    if (q != null && q !== '') { st.q = q; st.only = false; st.i = 0; deck = []; }
     document.title = 'Almanca Sözlük · Sudis';
     app.dataset.subj = 'sozluk';
     var cnt = { all: D.length, A1: 0, A2: 0, B1: 0 };

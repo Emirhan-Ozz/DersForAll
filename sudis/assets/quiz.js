@@ -79,6 +79,40 @@
     return null;
   }
 
+  /* ---------- Yanlışlarım: 10 üzerinden 5'in altı yanlış sayılır ---------- */
+  var WRONG = 'sudis-yanlis';
+  function getWrong() { return ls(WRONG) || {}; }
+  function logWrong(key, r, text) {
+    if (!String(text || '').trim() || r.short) return;
+    var w = getWrong();
+    if (r.score >= 5) { if (!(key in w)) return; delete w[key]; } else w[key] = Date.now();
+    ls(WRONG, w);
+  }
+  function findQ(key) {
+    var p = key.split(':'), src = p[0] === 'p' ? window.PRACTICE : window.BANK, list = (src || {})[p[1]] || [];
+    for (var i = 0; i < list.length; i++) if (list[i].id === p[2]) return { sid: p[1], q: list[i] };
+    return null;
+  }
+  function wrongPage(app) {
+    var keys = Object.keys(getWrong()), items = keys.map(function (k) { var x = findQ(k); if (x) x.key = k; return x; }).filter(Boolean);
+    document.title = 'Yanlışlarım · Sudis';
+    var head = '<div class="crumb"><a href="#">← Ana sayfa</a></div>' +
+      '<header class="shead"><span class="num">!</span><div><h1>Yanlışlarım</h1>' +
+      '<p class="auth">10 üzerinden 5\'in altında kalan cevapların. Burada 5 ve üstü aldığında listeden düşer.</p></div></header>';
+    if (!items.length) { app.innerHTML = head + '<p class="fb-note">Şu an yanlış listen boş. Alıştırma ve testleri çözdükçe zorlandığın sorular burada birikir.</p>'; return; }
+    app.innerHTML = head + '<div class="qwrap">' + items.map(function (it, i) {
+      return qCard(it.q, i + 1, subj(it.sid).title).replace('<div class="qfb"></div>', '<div class="qact"><button class="btn" type="button">Kontrol et</button></div><div class="qfb"></div>');
+    }).join('') + '</div>';
+    app.querySelectorAll('.qcard').forEach(function (card, i) {
+      card.querySelector('.btn').addEventListener('click', function () {
+        var txt = card.querySelector('textarea').value, r = grade(items[i].q, txt);
+        logWrong(items[i].key, r, txt);
+        card.querySelector('.qfb').innerHTML = feedback(items[i].q, r) + (r.score >= 5 ? '<p class="fb-note"><b>Listeden çıktı.</b></p>' : '');
+      });
+    });
+    window.scrollTo(0, 0);
+  }
+
   /* ---------- ortak çizim ---------- */
   function feedback(q, r) {
     var cls = r.score >= 7 ? 'good' : r.score >= 4 ? 'mid' : 'bad';
@@ -111,7 +145,8 @@
       '<div class="pn"><a href="#' + s.id + '">← Özete dön</a><a href="#test/rastgele">Rastgele teste geç →</a></div></div>';
     app.querySelectorAll('.qcard').forEach(function (card, i) {
       card.querySelector('.btn').addEventListener('click', function () {
-        var r = grade(list[i], card.querySelector('textarea').value);
+        var txt = card.querySelector('textarea').value, r = grade(list[i], txt);
+        logWrong('p:' + sid + ':' + list[i].id, r, txt);
         card.querySelector('.qfb').innerHTML = feedback(list[i], r);
       });
     });
@@ -138,7 +173,8 @@
     app.querySelector('#finish').addEventListener('click', function () {
       var sum = 0;
       app.querySelectorAll('.qcard').forEach(function (card, i) {
-        var r = grade(items[i].q, card.querySelector('textarea').value);
+        var txt = card.querySelector('textarea').value, r = grade(items[i].q, txt);
+        logWrong('b:' + items[i].sid + ':' + items[i].q.id, r, txt);
         sum += r.score;
         card.querySelector('.qfb').innerHTML = feedback(items[i].q, r);
       });
@@ -166,6 +202,9 @@
     cards += '<a class="card tcard feat" href="#test/rastgele"><span class="num">?</span><h2>Rastgele test</h2>' +
       '<p class="auth">3 konudan karışık</p><p class="desc">Her seferinde ' + poolN + ' soruluk havuzdan, daha az gördüğün sorular öne alınarak seçilir.</p>' +
       '<div class="meta"><span>' + (Object.keys(window.BANK || {}).length * CONF.perSubject) + ' soru · 100 puan</span><span>' + (best != null ? 'En iyi: ' + fmtScore(best) : 'Henüz çözülmedi') + '</span></div></a>';
+    var nW = Object.keys(getWrong()).length;
+    cards += '<a class="card tcard" href="#test/yanlislar"><span class="num">!</span><h2>Yanlışlarım</h2><p class="auth">Zorlandığın sorular</p>' +
+      '<p class="desc">' + (nW ? nW + ' soru bekliyor. 5 ve üstü aldığında listeden düşer.' : 'Alıştırma ve testlerde 10 üzerinden 5\'in altında kalan cevapların burada birikir.') + '</p></a>';
     return '<section class="tests"><h2 class="sec-h">Testler</h2><div class="tcards">' + cards + '</div></section>';
   }
 
@@ -173,6 +212,7 @@
     homeSection: homeSection,
     render: function (app, what) {
       if (what === 'rastgele') return randomTest(app, false);
+      if (what === 'yanlislar') return wrongPage(app);
       if (what && what.indexOf('a-') === 0) return practice(app, what.slice(2));
       location.hash = '';
     }

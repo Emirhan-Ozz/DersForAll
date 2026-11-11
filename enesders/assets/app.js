@@ -269,6 +269,27 @@
     return '<div class="card"><div class="t">' + esc(title) + '</div><div class="d">' + esc(desc) + '</div>' +
       '<div class="randbox">' + sel + '<button class="btn small" data-rand="' + kind + '">Başlat</button></div></div>';
   }
+  /* ---------- Yanlışlarım ---------- */
+  function wKey(c) { return 'enes-yanlis-' + c.id; }
+  function getWrong(c) { try { return JSON.parse(localStorage.getItem(wKey(c))) || {}; } catch (e) { return {}; } }
+  function logWrong(c, q, ok) {
+    var w = getWrong(c);
+    if (ok) { if (!(q.id in w)) return; delete w[q.id]; } else w[q.id] = Date.now();
+    try { localStorage.setItem(wKey(c), JSON.stringify(w)); } catch (e) { /* yok say */ }
+  }
+  function allQs(c) {
+    var out = c.bank.slice();
+    (c.extra || []).forEach(function (e) { out = out.concat(e.questions); });
+    return out;
+  }
+  function wrongExam(c) {
+    var w = getWrong(c);
+    var qs = allQs(c).filter(function (q) { return q.id in w; });
+    qs.sort(function (a, b) { return TYPE_ORDER.indexOf(a.type) - TYPE_ORDER.indexOf(b.type); });
+    return { id: 'yanlislar', group: 'yanlis', title: 'Yanlışlarım', mode: 'practice',
+      desc: 'Yanlış yaptığın sorular. Doğru cevapladığında listeden düşer.', questions: qs };
+  }
+
   function testList(c) {
     var g = function (name) { return c.exams.filter(function (e) { return e.group === name; }); };
     var n = counts(c);
@@ -277,6 +298,9 @@
     var html = tabs(c, 'test') +
       '<p class="lead">Vize formatı: soru tipi hocaya göre değişebiliyor. Test 20–50 soru, boşluk doldurma + doğru/yanlış, klasik soru-cevap veya 4 sorudan oluşan uzun klasik olabilir. ' +
       'Denemeler <b>sınav modunda</b> açılır (sonda puan); üstten <b>pratik moduna</b> geçip her soruyu anında kontrol edebilirsin.</p>';
+    var wx = wrongExam(c);
+    html += '<h2>Yanlışlarım</h2><div class="grid">' + (wx.questions.length ? examCard(c, wx)
+      : '<div class="card"><div class="t">Yanlışlarım</div><div class="d">Henüz yanlış yaptığın soru yok. Testleri çözdükçe yanlışların burada birikir.</div></div>') + '</div>';
     var not = g('not');
     if (not.length) html += '<h2>Notlardaki sorular</h2><div class="grid">' + not.map(function (e) { return examCard(c, e); }).join('') + '</div>';
     html += '<h2 class="sec-title">Test <small>çoktan seçmeli · ' + n.mc + ' soruluk banka</small></h2><div class="grid">' +
@@ -309,8 +333,9 @@
     var exam;
     var m = /^r-(test|bdy|klasik|uzun)-(\d+)$/.exec(id);
     if (m) exam = randomExam(c, m[1], +m[2] || 30);
+    else if (id === 'yanlislar') exam = wrongExam(c);
     else exam = c.exams.filter(function (e) { return e.id === id; })[0];
-    if (!exam) return testList(c);
+    if (!exam || !exam.questions.length) return testList(c);
     S = { c: c, exam: exam, mode: exam.mode || 'exam', ans: {}, done: {}, ticks: {}, finished: false };
     drawRunner();
   }
@@ -407,6 +432,7 @@
         '</ul><div class="selfscore">Puanın: ' + pts + (q.type === 'long' ? ' / 25' : ' / 100') + '</div></div>';
     }
     var ok = correctness(q) === 1;
+    if (a !== undefined && a !== null && a !== '') logWrong(S.c, q, ok);
     var h = ok ? 'Doğru' : 'Yanlış';
     var right = '';
     if (!ok) {

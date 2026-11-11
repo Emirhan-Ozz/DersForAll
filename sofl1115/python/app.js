@@ -56,7 +56,8 @@
     const [p0, p1] = page.split('/');
     document.querySelectorAll('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === (p0 === 'ozet' || p0 === 'notlar' ? p0 : 'home')));
     const ex = PY.exams.find(e => e.id === page);
-    if (p0 === 'ozet') app.innerHTML = window.PYGUIDE;
+    if (p0 === 'yanlislar') { const wx = wrongExam(); if (wx.q.length) renderExam(wx); else app.innerHTML = '<a href="#/" class="small">← Çalışmalar</a><h1>Yanlışlarım</h1><p class="muted">Şu an yanlış listen boş. Çalışmaları çözdükçe yanlış yaptığın sorular burada birikir.</p>'; }
+    else if (p0 === 'ozet') app.innerHTML = window.PYGUIDE;
     else if (p0 === 'notlar') renderNotes(p1);
     else if (ex) renderExam(ex);
     else renderHome();
@@ -64,14 +65,28 @@
   }
   window.addEventListener('hashchange', route);
 
+  // ---------- Yanlışlarım ----------
+  function getWrong() { return store.get('yanlis', {}); }
+  function logWrong(id, ok) {
+    const w = getWrong();
+    if (ok) { if (!(id in w)) return; delete w[id]; } else w[id] = Date.now();
+    store.set('yanlis', w);
+  }
+  function wrongExam() {
+    const w = getWrong(), q = [];
+    PY.exams.forEach(e => e.q.forEach((x, i) => { const id = e.id + ':' + i; if (id in w) q.push(Object.assign({}, x, { _wid: id })); }));
+    return { id: 'yanlislar', title: 'Yanlışlarım', desc: 'Yanlış yaptığın sorular. Doğru cevapladığında listeden düşer.', q };
+  }
+
   function renderHome() {
+    const nW = Object.keys(getWrong()).length;
     app.innerHTML = `<h1>MBP1104 Python vize çalışma</h1>
       <p class="lead">Hocanın slaytlarındaki konulardan ${PY.exams.length} çalışma. Her biri sınav formatında 10 soru: 2 test, 4 boşluk doldurma, 3 kısa kod yazma (for / while / if-else) ve 1 akış diyagramı.</p>
       <div class="box small muted">${esc(PY.note)}</div>
       <div class="cards">${PY.exams.map(e => {
         const best = store.get('best-' + e.id, null);
         return `<a class="card" href="#/${e.id}"><h3>${esc(e.title)}</h3><p>${esc(e.desc)}</p>${best !== null ? `<div class="best">En iyi: ${fmt(best)} / 100</div>` : ''}</a>`;
-      }).join('')}</div>
+      }).join('')}<a class="card" href="#/yanlislar"><h3>Yanlışlarım</h3><p>${nW ? `${nW} soru bekliyor. Doğru cevapladıkça listeden düşer.` : 'Çalışmalarda yanlış yaptığın sorular burada birikir.'}</p></a></div>
       <h2>Nasıl çalışılır?</h2>
       <ul>
         <li>Önce <a href="#/notlar">ders notlarını</a> (hocanın 4 PDF'i, örnek ve lab çözümleriyle) ya da tek sayfalık <a href="#/ozet">hızlı özeti</a> oku.</li>
@@ -192,6 +207,8 @@
         if (st.done) el.querySelector('.sol').hidden = false;
       }
       st.res[i] = ratio;
+      if (!/^(Boş bıraktın|Kod yazmadın|Kontrol edilemedi)/.test(msg) && !(q.t === 'flow' && ![...el.querySelectorAll('input.blank')].some(x => x.value.trim())))
+        logWrong(q._wid || (ex.id + ':' + i), ratio === 1);
       fb.hidden = false;
       fb.className = 'fb ' + (ratio === 1 ? 'ok' : 'no');
       fb.innerHTML = `<strong>${ratio === 1 ? 'Doğru.' : ''}</strong> ${msg} ${md(q.exp)}`;

@@ -165,7 +165,7 @@
     navOn(parts[0]);
     if (parts[0] === 'test' && window.SudisQuiz) { app.dataset.subj = ''; return window.SudisQuiz.render(app, parts[1]); }
     if (parts[0] === 'almanca' && window.AlmancaKitap) return window.AlmancaKitap.render(app, parts[1]);
-    if (parts[0] === 'sozluk' && window.Sozluk) return window.Sozluk.render(app);
+    if (parts[0] === 'sozluk' && window.Sozluk) return window.Sozluk.render(app, parts[1]);
     var s = findSubj(parts[0]);
     if (!s) return home();
     // aynı derste başka başlığa geçişte sayfayı yeniden çizme

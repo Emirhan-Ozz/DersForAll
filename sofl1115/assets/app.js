@@ -16,7 +16,8 @@
     const [page, id] = h.split('/');
     document.querySelectorAll('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === (page === 'rehber' || page === 'kelimeler' ? page : 'home')));
     if (page === 'rehber') { app.innerHTML = window.GUIDE || ''; }
-    else if (page === 'kelimeler') { renderVocab(); }
+    else if (page === 'kelimeler') { renderVocab(id ? decodeURIComponent(id) : ''); }
+    else if (page === 'yanlislar') { renderWrong(); }
     else if (page === 'test' && EXAMS.find(e => e.id === id)) { renderExam(EXAMS.find(e => e.id === id)); }
     else { renderHome(); }
     window.scrollTo(0, 0);
@@ -25,6 +26,7 @@
 
   // ---------- ana sayfa ----------
   function renderHome() {
+    const nW = Object.keys(getWrong()).length;
     const cards = EXAMS.map(e => {
       const best = store.get('best-' + e.id, null);
       return `<a class="card${e.featured ? ' featured' : ''}" href="#/test/${e.id}">
@@ -34,7 +36,7 @@
     app.innerHTML = `
       <h1>SoFL 1115 vize çalışma</h1>
       <p class="lead">Gerçek vize formatında 4 test: hocanın örnek sınavı ve 3 deneme vizesi. Her test Listening (15 soru), Reading (20 soru) ve Writing'den oluşuyor. Önce <a href="#/rehber">sınav rehberine</a> bir göz at; metinlerdeki kelimeler ve kalıplar <a href="#/kelimeler">Kelimeler</a> menüsünde.</p>
-      <div class="cards">${cards}</div>
+      <div class="cards">${cards}<a class="card" href="#/yanlislar"><h3>Yanlışlarım</h3><p>${nW ? `${nW} soru bekliyor. Doğru cevapladıkça listeden düşer.` : 'Testlerde yanlış yaptığın sorular burada birikir.'}</p></a></div>
       <h2>Nasıl çalışılır?</h2>
       <ul>
         <li><b>Sınav modu</b> (varsayılan): hepsini çöz, sonda "Bitir ve puanla"ya bas. Yanlışların açıklamalarıyla görünür.</li>
@@ -140,6 +142,7 @@
       const fb = el.querySelector('.fb');
       if (!reveal) { fb.hidden = true; return; }
       const ok = chosen === x.q.a;
+      if (chosen !== undefined) logWrong(ex.id + ':' + key, ok);
       const label = x.q.opts.length === 2 ? x.q.opts[x.q.a] : `${LET[x.q.a]}) ${x.q.opts[x.q.a]}`;
       fb.hidden = false;
       fb.className = 'fb ' + (ok ? 'ok' : 'no');
@@ -169,6 +172,51 @@
         <p class="small">Yanlışlar aşağıda kırmızıyla işaretli, her birinin altında açıklaması var.</p></div>`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }
+
+  // ---------- Yanlışlarım ----------
+  function getWrong() { return store.get('yanlis', {}); }
+  function logWrong(id, ok) {
+    const w = getWrong();
+    if (ok) { if (!(id in w)) return; delete w[id]; } else w[id] = Date.now();
+    store.set('yanlis', w);
+  }
+  function wrongItems() {
+    const w = getWrong(), out = [];
+    EXAMS.forEach(ex => {
+      ex.listening.sections.forEach((s, si) => s.questions.forEach((q, qi) => { const id = `${ex.id}:L${si}-${qi}`; if (id in w) out.push({ id, ex, q, part: 'L', sec: s }); }));
+      ex.reading.forEach((t, ti) => t.questions.forEach((q, qi) => { const id = `${ex.id}:R${ti}-${qi}`; if (id in w) out.push({ id, ex, q, part: 'R', text: t }); }));
+    });
+    return out;
+  }
+  function renderWrong() {
+    const items = wrongItems();
+    let html = `<a href="#/" class="small">← Testler</a><h1>Yanlışlarım</h1>
+      <p class="lead">Testlerde yanlış işaretlediğin sorular. Burada doğru cevapladığında listeden düşer.</p>`;
+    if (!items.length) { app.innerHTML = html + '<p class="muted">Şu an yanlış listen boş. Testleri çözdükçe yanlış yaptığın sorular burada birikir.</p>'; return; }
+    let cur = '';
+    items.forEach((x, n) => {
+      if (x.ex.id !== cur) { cur = x.ex.id; html += `<h2>${esc(x.ex.title)}</h2>`; }
+      const ctx = x.part === 'L'
+        ? (x.sec.script ? `<details><summary>Listening · ${esc(x.sec.title)}: dinleme metni</summary><div class="script">${x.sec.script.map(([sp, t]) => `<p><b>${esc(sp)}:</b> ${esc(t)}</p>`).join('')}</div></details>` : `<p class="muted small">Listening · ${esc(x.sec.title)}</p>`)
+        : `<details><summary>Reading · ${esc(x.text.title)}: metni göster</summary><div class="text">${x.text.body.map(p => `<p>${esc(p)}</p>`).join('')}</div></details>`;
+      html += ctx + qHtml('W' + n, x.q, n + 1).replace('<div class="q" ', `<div class="q" data-wid="${esc(x.id)}" `);
+    });
+    app.innerHTML = html;
+    app.querySelectorAll('.opt').forEach(b => b.addEventListener('click', () => {
+      const el = b.closest('.q'), x = items[+b.dataset.k.slice(1)], i = +b.dataset.i;
+      if (el.dataset.done) return;
+      el.dataset.done = '1';
+      const ok = i === x.q.a;
+      el.querySelectorAll('.opt').forEach(o => {
+        const k = +o.dataset.i; o.disabled = true;
+        if (k === x.q.a) o.classList.add('right'); else if (k === i) o.classList.add('wrong');
+      });
+      const fb = el.querySelector('.fb'), label = x.q.opts.length === 2 ? x.q.opts[x.q.a] : `${LET[x.q.a]}) ${x.q.opts[x.q.a]}`;
+      fb.hidden = false; fb.className = 'fb ' + (ok ? 'ok' : 'no');
+      fb.innerHTML = (ok ? '<strong>Doğru, listeden çıktı.</strong>' : `<strong>Yanlış.</strong> Doğru cevap: <b>${esc(label)}</b>.<br>`) + ' ' + esc(x.q.exp);
+      logWrong(x.id, ok);
+    }));
   }
 
   function qHtml(key, q, n) {
@@ -247,15 +295,15 @@
 
 
   // ---------- kelimeler ----------
-  function renderVocab() {
+  function renderVocab(q0) {
     const V = window.VOCAB || [];
     const total = V.reduce((n, g) => n + g.items.length, 0);
-    const vs = { g: 'all', t: 'all', q: '', hide: store.get('vhide', false) };
+    const vs = { g: 'all', t: 'all', q: q0 || '', hide: store.get('vhide', false) };
     const short = { genel: 'Sınav dili', ornek: 'Örnek vize', deneme1: 'Deneme 1', deneme2: 'Deneme 2', deneme3: 'Deneme 3' };
     app.innerHTML = `<h1>Kelimeler</h1>
       <p class="lead">Testlerdeki dinleme metinleri, okuma parçaları, sorular ve writing'den ${total} kelime ve kalıp. "Türkçeyi gizle"yi açıp kendini sına ya da kartlarla çalış.</p>
       <div class="vctl">
-        <input type="search" id="vq" placeholder="Ara (İngilizce ya da Türkçe)…" autocomplete="off">
+        <input type="search" id="vq" placeholder="Ara (İngilizce ya da Türkçe)…" autocomplete="off" value="${esc(vs.q)}">
         <div class="chips" id="vg"><button data-g="all" class="on">Tümü</button>${V.map(g => `<button data-g="${g.id}">${esc(short[g.id] || g.title)}</button>`).join('')}</div>
         <div class="chips" id="vt"><button data-t="all" class="on">Hepsi</button><button data-t="w">Kelimeler</button><button data-t="p">Kalıplar / tabirler</button></div>
         <div class="vrow"><label><input type="checkbox" id="vhide"${vs.hide ? ' checked' : ''}> Türkçeyi gizle</label>
