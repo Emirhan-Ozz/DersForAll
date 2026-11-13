@@ -294,7 +294,7 @@ window.EXAMS = [
    {
     "type": "mc",
     "topic": "switch",
-    "q": "Aynı programda girdiler 12, 4, 9 olursa ne yazılır?",
+    "q": "Ekrana ne yazılır? (girdiler: 12, 4, 9)",
     "opts": [
      "3",
      "Hiçbir şey",
@@ -303,7 +303,8 @@ window.EXAMS = [
      "48"
     ],
     "a": 2,
-    "exp": "Hiçbir case tutmayınca default."
+    "exp": "İşlem 9: hiçbir case tutmayınca default çalışır.",
+    "code": "int sayi1 = Convert.ToInt32(Console.ReadLine());\nint sayi2 = Convert.ToInt32(Console.ReadLine());\nint islem = Convert.ToInt32(Console.ReadLine());\nswitch (islem)\n{\n    case 1: Console.Write(sayi1 + sayi2); break;\n    case 2: Console.Write(sayi1 - sayi2); break;\n    case 3: Console.Write(sayi1 * sayi2); break;\n    case 4: Console.Write(sayi1 / sayi2); break;\n    default: Console.Write(\"Hatalı Giriş\"); break;\n}"
    },
    {
     "type": "mc",
@@ -1690,7 +1691,7 @@ window.TOPIC_QUESTIONS = {
   {
    "type": "mc",
    "topic": "switch",
-   "q": "Aynı programda girdiler 12, 4, 9 olursa ne yazılır?",
+   "q": "Ekrana ne yazılır? (girdiler: 12, 4, 9)",
    "opts": [
     "3",
     "Hiçbir şey",
@@ -1699,7 +1700,8 @@ window.TOPIC_QUESTIONS = {
     "48"
    ],
    "a": 2,
-   "exp": "Hiçbir case tutmayınca default."
+   "exp": "İşlem 9: hiçbir case tutmayınca default çalışır.",
+   "code": "int sayi1 = Convert.ToInt32(Console.ReadLine());\nint sayi2 = Convert.ToInt32(Console.ReadLine());\nint islem = Convert.ToInt32(Console.ReadLine());\nswitch (islem)\n{\n    case 1: Console.Write(sayi1 + sayi2); break;\n    case 2: Console.Write(sayi1 - sayi2); break;\n    case 3: Console.Write(sayi1 * sayi2); break;\n    case 4: Console.Write(sayi1 / sayi2); break;\n    default: Console.Write(\"Hatalı Giriş\"); break;\n}"
   },
   {
    "type": "mc",
@@ -2034,7 +2036,7 @@ window.TOPIC_QUESTIONS = {
   {
    "type": "mc",
    "topic": "while",
-   "q": "Faktöriyel programında `int sonuc = 0;` yazılırsa (girdi 5) ne yazılır?",
+   "q": "Faktöriyel programında `sonuc` 0 ile başlatılmış. Ekrana ne yazılır? (girdi: 5)",
    "opts": [
     "Sonsuz döngü",
     "Sonuç:0",
@@ -2043,7 +2045,8 @@ window.TOPIC_QUESTIONS = {
     "Sonuç:5"
    ],
    "a": 1,
-   "exp": "0 ile çarpılan her şey 0."
+   "exp": "0 ile çarpılan her şey 0; doğrusu `int sonuc = 1;`.",
+   "code": "int sayi = Convert.ToInt32(Console.ReadLine());\nint sonuc = 0;\nwhile (sayi > 1)\n{\n    sonuc *= sayi;\n    sayi--;\n}\nConsole.WriteLine(\"Sonuç:\" + sonuc);"
   },
   {
    "type": "mc",
@@ -2077,7 +2080,7 @@ window.TOPIC_QUESTIONS = {
   {
    "type": "mc",
    "topic": "while",
-   "q": "Aynı kodu `while (i < 5) { ... }` ile yazsaydık (i = 10) ne yazılırdı?",
+   "q": "Ekrana ne yazılır? (do while yerine while kullanılmış)",
    "opts": [
     "Sonsuz döngü",
     "Hiçbir şey",
@@ -2086,7 +2089,8 @@ window.TOPIC_QUESTIONS = {
     "5"
    ],
    "a": 1,
-   "exp": "Koşul baştan yanlış; while hiç çalışmaz."
+   "exp": "Koşul baştan yanlış (10 < 5 değil); while hiç çalışmaz. do while olsaydı 10 bir kez yazılırdı.",
+   "code": "int i = 10;\nwhile (i < 5)\n{\n    Console.WriteLine(i);\n    i++;\n}"
   },
   {
    "type": "mc",
