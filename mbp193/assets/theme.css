@@ -109,19 +109,19 @@ pre.code .cn { color: #c792ea; }
 /* UML diyagramları */
 figure.er { margin: 14px 0 18px; padding: 12px 12px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
 figure.er svg { display: block; width: 100%; max-width: 620px; height: auto; margin: 0 auto; font-family: ui-monospace, "JetBrains Mono", Consolas, monospace; }
-figure.er text { fill: var(--text); font-size: 11.5px; }
+figure.er text { fill: var(--text); font-size: 13.5px; }
 figure.er .cls rect { fill: var(--surface-2); stroke: var(--accent); stroke-width: 1.6; }
 figure.er .cls line { stroke: var(--accent); stroke-width: 1.2; }
-figure.er .nm { text-anchor: middle; font-weight: 800; font-size: 13px; font-family: system-ui, sans-serif; }
+figure.er .nm { text-anchor: middle; font-weight: 800; font-size: 15px; font-family: system-ui, sans-serif; }
 figure.er .it { font-style: italic; }
-figure.er .st { text-anchor: middle; font-size: 10.5px; fill: var(--muted); }
+figure.er .st { text-anchor: middle; font-size: 12.5px; fill: var(--muted); }
 figure.er .edge polyline, figure.er .edge line { stroke: var(--rose); stroke-width: 1.6; }
 figure.er .dash { stroke-dasharray: 6 4; }
 figure.er .tri, figure.er .dia { fill: var(--surface); stroke: var(--rose); stroke-width: 1.6; }
 figure.er .diaf { fill: var(--rose); stroke: var(--rose); stroke-width: 1.6; }
-figure.er .mul { font-weight: 800; fill: var(--accent); font-size: 12px; text-anchor: middle; font-family: system-ui, sans-serif; }
-figure.er .rl { text-anchor: middle; font-style: italic; fill: var(--rose); font-size: 11.5px; font-family: system-ui, sans-serif; }
-figure.er .lgl { font-family: system-ui, sans-serif; font-size: 12.5px; }
+figure.er .mul { font-weight: 800; fill: var(--accent); font-size: 14px; text-anchor: middle; font-family: system-ui, sans-serif; }
+figure.er .rl { text-anchor: middle; font-style: italic; fill: var(--rose); font-size: 13.5px; font-family: system-ui, sans-serif; }
+figure.er .lgl { font-family: system-ui, sans-serif; font-size: 14.5px; }
 figure.er figcaption { font-size: .88rem; color: var(--muted); text-align: center; margin-top: 6px; }
 @media (max-width: 600px) { figure.er { overflow-x: auto; padding: 8px 6px 6px; } figure.er svg { min-width: 520px; } figure.er figcaption { position: sticky; left: 0; } }
 
@@ -143,5 +143,8 @@ figure.er .fl .s2 { fill: var(--rose-soft); stroke: var(--rose); }
 figure.er .fl .s3 { fill: var(--accent-soft); stroke: var(--accent); }
 figure.er .fl .s4 { fill: var(--bad-soft); stroke: var(--bad); }
 figure.er .fl line { stroke: var(--muted); stroke-width: 1.6; }
-figure.er .fl text { text-anchor: middle; font: 700 12.5px system-ui, sans-serif; fill: var(--text); }
-figure.er .lg text { font: 13px system-ui, sans-serif; fill: var(--muted); }
+figure.er .fl text { text-anchor: middle; font: 700 14.5px system-ui, sans-serif; fill: var(--text); }
+figure.er .lg text { font: 15px system-ui, sans-serif; fill: var(--muted); }
+
+/* yazı boyutu +2px (kök 16 → 18) */
+html { font-size: 18px; }

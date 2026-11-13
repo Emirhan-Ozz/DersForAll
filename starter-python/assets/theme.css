@@ -94,3 +94,6 @@ pre.code .f { color: #9fd0c4; }
 /* Seçimler */
 ::selection { background: color-mix(in srgb, var(--accent) 30%, transparent); }
 .topic-tests { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+
+/* yazı boyutu +2px (kök 16 → 18) */
+html { font-size: 18px; }

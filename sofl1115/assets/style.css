@@ -2,7 +2,7 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--bg); color: var(--text);
-  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font: 18px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -136,7 +136,7 @@ li { margin: .25rem 0; }
 code { background: var(--surface-2); padding: .05rem .35rem; border-radius: 4px; font-size: .92em; }
 
 @media (max-width: 560px) {
-  body { font-size: 15.5px; }
+  body { font-size: 17.5px; }
   .brand span { display: none; }
   main { padding: 1rem .8rem 3rem; }
   .opts { flex-direction: column; align-items: stretch; }
@@ -177,17 +177,17 @@ table.vocab td.tr { color: var(--text); }
 .pq { padding: 1.1rem 0; border-bottom: 1px solid var(--border); }
 .pqh { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
 pre.code { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: .7rem .9rem; overflow-x: auto;
-  font: 14.5px/1.55 ui-monospace, "Cascadia Code", Consolas, monospace; color: var(--code-text); margin: .5rem 0; }
+  font: 16.5px/1.55 ui-monospace, "Cascadia Code", Consolas, monospace; color: var(--code-text); margin: .5rem 0; }
 input.blank { font: inherit; color: var(--text); background: var(--surface-2); border: 1px dashed var(--accent); border-radius: 5px; padding: .05rem .35rem; min-width: 4ch; }
 input.blank:focus { outline: none; border-style: solid; }
 input.blank.right { border: 1px solid var(--ok); background: var(--ok-soft); }
 input.blank.wrong { border: 1px solid var(--bad); background: var(--bad-soft); }
-textarea.codebox { min-height: 130px; font: 14.5px/1.55 ui-monospace, "Cascadia Code", Consolas, monospace; tab-size: 4; background: var(--code-bg); }
+textarea.codebox { min-height: 130px; font: 16.5px/1.55 ui-monospace, "Cascadia Code", Consolas, monospace; tab-size: 4; background: var(--code-bg); }
 .pq .row { display: flex; flex-wrap: wrap; gap: .5rem; margin: .5rem 0; }
 table.tt { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
 table.tt th, table.tt td { padding: .35rem .5rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
 table.tt th { color: var(--muted); font-weight: 500; }
-table.tt pre { margin: 0; font: 13.5px/1.45 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
+table.tt pre { margin: 0; font: 15.5px/1.45 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
 table.tt tr.good td:last-child { color: var(--ok); }
 table.tt tr.bad td:last-child { color: var(--bad); }
 .flowwrap { overflow-x: auto; margin: .5rem 0; }
@@ -215,7 +215,7 @@ a.btn:hover { text-decoration: none; }
 .shape { display: grid; grid-template-columns: 76px 1fr; gap: .2rem .7rem; align-items: start; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: .65rem .75rem; }
 .shape svg { grid-row: span 3; width: 76px; height: 48px; color: var(--accent); }
 .shape svg * { fill: var(--surface-2); stroke: currentColor; stroke-width: 1.8; }
-.shape svg text { fill: var(--text); stroke: none; font: 11px ui-monospace, monospace; }
+.shape svg text { fill: var(--text); stroke: none; font: 13px ui-monospace, monospace; }
 .shape b { font-size: .97rem; }
 .shape .ne { color: var(--muted); font-size: .88rem; line-height: 1.4; }
 .shape .py { font-size: .85rem; }
@@ -297,7 +297,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font: 18px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -368,7 +368,7 @@ code {
   width: 34px;
   height: 34px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
 }
 .theme-btn:hover { color: var(--text); }
 
@@ -535,7 +535,7 @@ pre.code {
   margin: 0;
   background: var(--code-bg);
   color: var(--code-text);
-  font: 14px/1.6 var(--mono);
+  font: 16px/1.6 var(--mono);
   padding: 12px 16px;
   overflow-x: auto;
   tab-size: 4;
@@ -543,14 +543,14 @@ pre.code {
 .out {
   background: var(--code-out);
   color: #c9d1e0;
-  font: 13.5px/1.55 var(--mono);
+  font: 15.5px/1.55 var(--mono);
   padding: 8px 16px 10px;
   white-space: pre-wrap;
   border-top: 1px solid rgba(255,255,255,.07);
 }
 .out .lbl {
   display: block;
-  font: 600 11px/1.6 system-ui, sans-serif;
+  font: 600 13px/1.6 system-ui, sans-serif;
   text-transform: uppercase;
   letter-spacing: .08em;
   color: #8a94a8;
@@ -702,7 +702,7 @@ input.blank.ok { border: 1px solid #4cc27f; background: #173826; }
 input.blank.bad { border: 1px solid #f07167; background: #43201e; }
 input.blank:disabled { opacity: 1; }
 .blank-no {
-  font-size: 11px;
+  font-size: 13px;
   color: #9aa6c0;
   vertical-align: super;
   margin-right: 1px;
@@ -836,7 +836,7 @@ input.blank:disabled { opacity: 1; }
   .tabs { gap: 0; }
   .tabs a { padding: 0 8px; font-size: .92rem; }
   .courses a { padding: 3px 8px; font-size: .85rem; }
-  pre.code { font-size: 13px; padding: 10px 12px; }
+  pre.code { font-size: 15px; padding: 10px 12px; }
   .q { padding: 14px; }
   .result .row { grid-template-columns: 1fr 70px; }
   .result .row .bar { display: none; }
@@ -855,7 +855,7 @@ input.blank:disabled { opacity: 1; }
 body.py { --band: linear-gradient(90deg, #3f69ad, #b8901f); }
 :root[data-theme="dark"] body.py { --band: linear-gradient(90deg, #8fb3d9, #e3c46b); }
 
-body { font-size: 15px; }
+body { font-size: 17px; }
 .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--band); opacity: .85; }
 .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .95rem; color: var(--text); white-space: nowrap; }
 .brand:hover { text-decoration: none; }
@@ -994,3 +994,6 @@ table.vocab td.tr { color: var(--text); }
   .progress > span:first-child { flex: 1; }
   .progress .btn { padding: 6px 10px; font-size: .85rem; }
 }
+
+/* yazı boyutu +2px (kök 16 → 18) */
+html { font-size: 18px; }

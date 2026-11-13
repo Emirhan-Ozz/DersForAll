@@ -41,7 +41,7 @@
 html { scroll-padding-top: 76px; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
-  font: 16px/1.65 Nunito, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font: 18px/1.65 Nunito, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   transition: background .25s, color .25s;
 }
@@ -436,7 +436,7 @@ kbd { font: inherit; font-size: .75rem; padding: 1px 6px; border: 1px solid var(
   }
 }
 html { scroll-padding-top: 72px; }
-body { font: 15px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; transition: none; }
+body { font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; transition: none; }
 a { color: var(--accent-ink); }
 code { font-family: var(--mono); font-size: .88em; background: var(--card2); border: 1px solid var(--line); border-radius: 4px; padding: 0 .3em; }
 h1, h2, h3 { line-height: 1.3; letter-spacing: -.01em; }
@@ -452,7 +452,7 @@ h1, h2, h3 { line-height: 1.3; letter-spacing: -.01em; }
 .topbar .tabs a { display: flex; align-items: center; padding: 0 14px; color: var(--muted); font-weight: 500; font-size: 1rem; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: none; text-decoration: none; white-space: nowrap; box-shadow: none; }
 .topbar .tabs a:hover { color: var(--ink); background: none; }
 .topbar .tabs a.on { color: var(--ink); background: none; border-bottom-color: var(--accent); box-shadow: none; }
-.theme-btn { margin-left: auto; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 8px; width: 34px; height: 34px; cursor: pointer; font-size: 16px; }
+.theme-btn { margin-left: auto; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 8px; width: 34px; height: 34px; cursor: pointer; font-size: 18px; }
 .theme-btn:hover { color: var(--ink); }
 main.container { max-width: 1120px; margin: 0 auto; padding: 24px 20px 80px; }
 .foot { padding: 0 16px 40px; margin-top: -50px; font-size: .82rem; }
@@ -563,3 +563,6 @@ th, td { padding: 7px 10px; }
 .card.de:hover { border-color: var(--accent); }
 @media (max-width: 900px) { .toc { margin: 0 -20px 18px; padding: 8px 20px; } }
 @media (max-width: 640px) { .toc { margin: 0 -14px 18px; padding: 8px 14px; } .topbar .tabs { min-width: 0; } }
+
+/* yazı boyutu +2px (kök 16 → 18) */
+html { font-size: 18px; }
