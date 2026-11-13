@@ -165,25 +165,33 @@
   }
 
   /* ---------- yönlendirme ---------- */
-  var app;
+  var app, CUR = null, VIEW = '';
   function route() {
     var h = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/').filter(Boolean);
     var c = BY[h[0]];
-    renderNav(c);
-    window.scrollTo(0, 0);
-    if (!c) return home();
-    if (h[1] === 'test' && h[2]) return runExam(c, h[2]);
-    if (h[1] === 'test') return testList(c);
-    if (h[1] === 'tekrar' && h[2]) return topicPage(c, h[2]);
-    return review(c);
+    var tab = !c ? '' : (h[1] === 'test' ? 'test' : 'tekrar');
+    renderNav(c, tab);
+    if (!c) { VIEW = 'home'; window.scrollTo(0, 0); return home(); }
+    if (h[1] === 'test' && h[2]) { VIEW = 'run'; window.scrollTo(0, 0); return runExam(c, h[2]); }
+    if (h[1] === 'test') { VIEW = 'tests'; window.scrollTo(0, 0); return testList(c); }
+    var key = c.id + '/tekrar';
+    if (VIEW !== key) { VIEW = key; review(c); }
+    goSec(h[2] ? 't-' + h[2] : null);
   }
 
-  function renderNav(cur) {
+  function renderNav(cur, tab) {
+    CUR = cur;
     $('#courseNav').innerHTML = COURSES.map(function (c) {
-      return '<a href="#/' + c.id + '" class="' + (cur && cur.id === c.id ? 'on' : '') + '">' + esc(c.short) + '</a>';
+      return '<a href="#/' + c.id + '" class="' + (cur && cur.id === c.id ? 'active' : '') + '">' + esc(c.short) + '</a>';
     }).join('');
-    var on = $('#courseNav a.on'); if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'center' });
+    var on = $('#courseNav a.active'); if (on) { var n = $('#courseNav'); n.scrollLeft = on.offsetLeft - n.clientWidth / 2 + on.offsetWidth / 2; }
+    var tb = $('#tabNav');
+    tb.hidden = !cur;
+    if (cur) tb.innerHTML = '<a href="#/' + cur.id + '/tekrar" class="' + (tab === 'tekrar' ? 'active' : '') + '">Genel Tekrar</a>' +
+      '<a href="#/' + cur.id + '/test" class="' + (tab === 'test' ? 'active' : '') + '">Test</a>';
+    $('#brandSub').textContent = cur ? '' : ' · 5 ders';
     document.title = cur ? cur.short + ' · Vize Çalışma' : 'Vize Çalışma';
+    var t = document.querySelector('.topbar'); if (t) document.documentElement.style.setProperty('--toph', t.offsetHeight + 'px');
   }
 
   function counts(c) {
@@ -194,54 +202,68 @@
   }
 
   function home() {
-    var html = '<h1>Vize çalışma sitesi</h1>' +
-      '<p class="lead">5 ders, tek site. Her derste <b>Genel Tekrar</b> (konu özetleri) ve <b>Test</b> sekmesi var. ' +
-      'Sorular 4 tipte: çoktan seçmeli test (20–50 soru), boşluk doldurma + doğru/yanlış, klasik soru-cevap ve 4 sorudan oluşan uzun klasik vize.</p>' +
-      '<div class="grid">' + COURSES.map(function (c) {
+    app.innerHTML = '<section class="card" style="margin-bottom:18px"><h1>Vize çalışma sitesi</h1>' +
+      '<p class="lead" style="margin:0">5 ders, tek site. Her derste <b>Genel Tekrar</b> (konu özetleri) ve <b>Test</b> sekmesi var. ' +
+      'Sorular 4 tipte: çoktan seçmeli test (20–50 soru), boşluk doldurma + doğru/yanlış, klasik soru-cevap ve 4 sorudan oluşan uzun klasik vize.</p></section>' +
+      '<div class="group-title">Dersler</div><div class="home-grid">' + COURSES.map(function (c, i) {
         var n = counts(c), tot = n.mc + n.fill + n.tf + n.open + n.long;
-        return '<a class="card" href="#/' + c.id + '"><div class="t">' + esc(c.title) + '</div><div class="d">' + esc(c.desc) + '</div>' +
-          '<div class="meta"><span>' + c.topics.length + ' konu</span><span>' + tot + ' soru</span></div></a>';
+        return '<a class="test-card' + (i === 0 ? '' : '') + '" href="#/' + c.id + '"><div class="t">' + esc(c.title) + '</div><div class="d">' + esc(c.desc) + '</div>' +
+          '<div class="meta"><span class="badge exam">' + c.topics.length + ' konu</span><span class="badge">' + tot + ' soru</span></div></a>';
       }).join('') + '</div>' +
-      '<h2>Nasıl çalışılır?</h2><ol>' +
+      '<div class="group-title">Nasıl çalışılır?</div><section class="card"><ol class="traps-list">' +
       '<li>Önce <b>Genel Tekrar</b>daki "Önemli noktalar" listesini oku.</li>' +
       '<li>Konu testleriyle (anında kontrol) eksiklerini bul.</li>' +
       '<li>Denemeleri <b>sınav modunda</b> çöz; klasik sorularda cevabını yazıp anahtar noktalarla kendini puanla.</li>' +
-      '<li>Rastgele testler daha az gördüğün soruları öne alır; arka arkaya açınca farklı sorular gelir.</li></ol>';
-    app.innerHTML = html;
-  }
-
-  function tabs(c, on) {
-    return '<h1>' + esc(c.title) + '</h1><div class="tabs">' +
-      '<a href="#/' + c.id + '/tekrar" class="' + (on === 'tekrar' ? 'on' : '') + '">Genel Tekrar</a>' +
-      '<a href="#/' + c.id + '/test" class="' + (on === 'test' ? 'on' : '') + '">Test</a></div>';
+      '<li>Rastgele testler daha az gördüğün soruları öne alır; arka arkaya açınca farklı sorular gelir.</li></ol></section>';
   }
 
   /* ---------- genel tekrar ---------- */
   function review(c) {
-    var html = tabs(c, 'tekrar') + '<p class="lead">' + rich(c.lead) + '</p>';
-    if (c.traps && c.traps.length) {
-      html += '<h2>Önemli noktalar</h2><ul class="traps">' + c.traps.map(function (t) {
-        return '<li>' + rich(t.t) + (t.topic ? ' <a href="#/' + c.id + '/tekrar/' + t.topic + '">→</a>' : '') + '</li>';
-      }).join('') + '</ul>';
-    }
-    html += '<h2>Konular</h2><ol class="toc">' + c.topics.map(function (t) {
-      return '<li><a href="#/' + c.id + '/tekrar/' + t.id + '">' + esc(t.title) + '</a></li>';
-    }).join('') + '</ol>';
-    html += c.topics.map(function (t) { return topicHtml(c, t); }).join('');
-    app.innerHTML = html;
+    var nq = function (t) { return c.bank.filter(function (q) { return q.topic === t.id; }).length; };
+    var toc = '<aside class="toc"><div class="toc-title">İçindekiler</div>' +
+      '<a href="#/' + c.id + '/tekrar/giris" data-sec="t-giris"><span class="num">·</span>Giriş</a>' +
+      (c.traps && c.traps.length ? '<a href="#/' + c.id + '/tekrar/onemli" data-sec="t-onemli"><span class="num">!</span>Önemli noktalar</a>' : '') +
+      '<div class="toc-sep"></div>' +
+      c.topics.map(function (t, i) {
+        return '<a href="#/' + c.id + '/tekrar/' + t.id + '" data-sec="t-' + t.id + '"><span class="num">' + (i + 1) + '</span>' + esc(t.title) + '</a>';
+      }).join('') + '</aside>';
+    var chips = '<nav class="chips">' +
+      '<a href="#/' + c.id + '/tekrar/giris" data-sec="t-giris">Giriş</a>' +
+      (c.traps && c.traps.length ? '<a href="#/' + c.id + '/tekrar/onemli" data-sec="t-onemli">Önemli</a>' : '') +
+      c.topics.map(function (t, i) { return '<a href="#/' + c.id + '/tekrar/' + t.id + '" data-sec="t-' + t.id + '">' + (i + 1) + '. ' + esc(t.title) + '</a>'; }).join('') + '</nav>';
+    var intro = '<section class="card" id="t-giris"><h1>' + esc(c.title) + '</h1><p class="lead" style="margin:0">' + rich(c.lead) + '</p></section>';
+    var traps = c.traps && c.traps.length ? '<section class="card" id="t-onemli"><h2>Önemli noktalar</h2>' +
+      '<p class="topic-src" style="margin-top:4px">Sınavda en çok karıştırılan bilgiler.</p><ol class="traps-list">' + c.traps.map(function (t) {
+        return '<li>' + rich(t.t) + (t.topic ? ' <a class="go" href="#/' + c.id + '/tekrar/' + t.topic + '">konu →</a>' : '') + '</li>';
+      }).join('') + '</ol></section>' : '';
+    var topics = c.topics.map(function (t, i) {
+      return '<section class="card topic" id="t-' + t.id + '"><div class="topic-head"><span class="n">' + (i + 1) + '</span><h2>' + esc(t.title) + '</h2><span class="spacer"></span>' +
+        '<a class="btn-link" href="#/' + c.id + '/test/konu-' + t.id + '">Konu testi (' + nq(t) + ' soru) →</a></div>' +
+        (t.src ? '<p class="topic-src">' + esc(t.src) + '</p>' : '') + t.blocks.map(block).join('') + '</section>';
+    }).join('');
+    app.innerHTML = '<div class="review">' + toc + '<div class="review-main">' + chips + intro + traps + topics + '</div></div>';
+    app.querySelectorAll('[data-sec]').forEach(function (a) {
+      a.onclick = function (ev) {
+        ev.preventDefault();
+        try { history.replaceState(null, '', a.getAttribute('href')); } catch (e) {}
+        goSec(a.dataset.sec, true);
+      };
+    });
   }
-  function topicPage(c, id) {
-    var t = c.topicMap[id];
-    if (!t) return review(c);
-    var i = c.topics.indexOf(t), prev = c.topics[i - 1], next = c.topics[i + 1];
-    app.innerHTML = tabs(c, 'tekrar') + '<a class="back" href="#/' + c.id + '/tekrar">← Tüm konular</a>' + topicHtml(c, t) +
-      '<div class="actions">' + (prev ? '<a class="btn ghost" href="#/' + c.id + '/tekrar/' + prev.id + '">← ' + esc(prev.title) + '</a>' : '') +
-      '<a class="btn" href="#/' + c.id + '/test/konu-' + t.id + '">Bu konunun testi</a>' +
-      (next ? '<a class="btn ghost" href="#/' + c.id + '/tekrar/' + next.id + '">' + esc(next.title) + ' →</a>' : '') + '</div>';
+  function goSec(id, smooth) {
+    var s = id && document.getElementById(id);
+    if (s) s.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    else window.scrollTo(0, 0);
+    spy();
   }
-  function topicHtml(c, t) {
-    return '<section class="topic" id="t-' + t.id + '"><h2><a href="#/' + c.id + '/tekrar/' + t.id + '" style="color:inherit">' + esc(t.title) + '</a></h2>' +
-      (t.src ? '<div class="src">' + esc(t.src) + '</div>' : '') + t.blocks.map(block).join('') + '</section>';
+  function spy() {
+    var secs = app.querySelectorAll('.review-main > section');
+    if (!secs.length) return;
+    var y = (parseInt(getComputedStyle(document.documentElement).scrollPaddingTop) || 80) + 10, cur = secs[0].id;
+    secs.forEach(function (s) { if (s.getBoundingClientRect().top <= y) cur = s.id; });
+    app.querySelectorAll('[data-sec]').forEach(function (a) { a.classList.toggle('active', a.dataset.sec === cur); });
+    var ch = app.querySelector('.chips a.active'), nav = app.querySelector('.chips');
+    if (ch && nav && nav.offsetParent) { var want = ch.offsetLeft - nav.clientWidth / 2 + ch.offsetWidth / 2; if (Math.abs(nav.scrollLeft - want) > 40) nav.scrollLeft = want; }
   }
   function block(b) {
     switch (b.t) {
@@ -249,24 +271,25 @@
       case 'h': return '<h3>' + rich(b.text) + '</h3>';
       case 'ul': return '<ul>' + b.items.map(function (x) { return '<li>' + rich(x) + '</li>'; }).join('') + '</ul>';
       case 'ol': return '<ol>' + b.items.map(function (x) { return '<li>' + rich(x) + '</li>'; }).join('') + '</ol>';
-      case 'table': return '<div class="tbl"><table><thead><tr>' + b.head.map(function (x) { return '<th>' + rich(x) + '</th>'; }).join('') +
+      case 'table': return '<div class="tbl-wrap"><table><thead><tr>' + b.head.map(function (x) { return '<th>' + rich(x) + '</th>'; }).join('') +
         '</tr></thead><tbody>' + b.rows.map(function (r) { return '<tr>' + r.map(function (x) { return '<td>' + rich(x) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
-      case 'trap': return '<div class="box trap"><b class="h">Dikkat</b>' + rich(b.text) + '</div>';
-      case 'tip': return '<div class="box tip"><b class="h">Sınavda</b>' + rich(b.text) + '</div>';
-      case 'note': return '<div class="box note"><b class="h">Not</b>' + rich(b.text) + '</div>';
+      case 'trap': return '<div class="callout trap"><span class="label">Dikkat</span>' + rich(b.text) + '</div>';
+      case 'tip': return '<div class="callout tip"><span class="label">Sınavda</span>' + rich(b.text) + '</div>';
+      case 'note': return '<div class="callout note"><span class="label">Not</span>' + rich(b.text) + '</div>';
     }
     return '';
   }
 
   /* ---------- test listesi ---------- */
-  function bestOf(c, id) { var b = store('enesders-best')[c.id + '/' + id]; return b == null ? '' : '<span class="best">En iyi: ' + b + '</span>'; }
+  function bestOf(c, id) { var b = store('enesders-best')[c.id + '/' + id]; return b == null ? '' : '<span class="badge best">En iyi: ' + b + '/100</span>'; }
   function examCard(c, e) {
-    return '<a class="card' + (e.featured ? ' featured' : '') + '" href="#/' + c.id + '/test/' + e.id + '"><div class="t">' + esc(e.title) + '</div>' +
-      '<div class="d">' + rich(e.desc || '') + '</div><div class="meta"><span>' + e.questions.length + ' soru</span>' + bestOf(c, e.id) + '</div></a>';
+    return '<a class="test-card' + (e.featured ? ' featured' : '') + '" href="#/' + c.id + '/test/' + e.id + '"><div class="t">' + esc(e.title) + '</div>' +
+      '<div class="d">' + rich(e.desc || '') + '</div><div class="meta">' + (e.mode === 'exam' ? '<span class="badge exam">Sınav modu</span>' : '<span class="badge">Pratik</span>') +
+      '<span>' + e.questions.length + ' soru</span>' + bestOf(c, e.id) + '</div></a>';
   }
   function randCard(c, kind, title, desc, sizes) {
     var sel = sizes ? '<select data-kind="' + kind + '">' + sizes.map(function (s) { return '<option value="' + s + '"' + (s === 30 ? ' selected' : '') + '>' + s + ' soru</option>'; }).join('') + '</select>' : '';
-    return '<div class="card"><div class="t">' + esc(title) + '</div><div class="d">' + esc(desc) + '</div>' +
+    return '<div class="test-card"><div class="t">' + esc(title) + '</div><div class="d">' + esc(desc) + '</div>' +
       '<div class="randbox">' + sel + '<button class="btn small" data-rand="' + kind + '">Başlat</button></div></div>';
   }
   /* ---------- Yanlışlarım ---------- */
@@ -295,28 +318,23 @@
     var n = counts(c);
     var sizes = [20, 25, 30, 40, 50].filter(function (s) { return s <= n.mc; });
     if (!sizes.length || sizes[sizes.length - 1] < n.mc && n.mc < 50) sizes.push(n.mc);
-    var html = tabs(c, 'test') +
-      '<p class="lead">Vize formatı: soru tipi hocaya göre değişebiliyor. Test 20–50 soru, boşluk doldurma + doğru/yanlış, klasik soru-cevap veya 4 sorudan oluşan uzun klasik olabilir. ' +
-      'Denemeler <b>sınav modunda</b> açılır (sonda puan); üstten <b>pratik moduna</b> geçip her soruyu anında kontrol edebilirsin.</p>';
+    var grp = function (title, note, inner) { return '<div class="group-title">' + title + (note ? '<small>' + note + '</small>' : '') + '</div><div class="test-grid">' + inner + '</div>'; };
+    var html = '<h1>Test</h1><p class="lead">Vize formatı hocaya göre değişebiliyor: test 20–50 soru, boşluk doldurma + doğru/yanlış, klasik soru-cevap ya da 4 sorudan oluşan uzun klasik. ' +
+      'Denemeler <b>sınav modunda</b> açılır (sonda puan); üstten <b>pratik</b> moduna geçip her soruyu anında kontrol edebilirsin.</p>';
     var wx = wrongExam(c);
-    html += '<h2>Yanlışlarım</h2><div class="grid">' + (wx.questions.length ? examCard(c, wx)
-      : '<div class="card"><div class="t">Yanlışlarım</div><div class="d">Henüz yanlış yaptığın soru yok. Testleri çözdükçe yanlışların burada birikir.</div></div>') + '</div>';
+    html += grp('Yanlışlarım', '', wx.questions.length ? examCard(c, wx)
+      : '<div class="test-card"><div class="t">Yanlışlarım</div><div class="d">Henüz yanlış yaptığın soru yok. Testleri çözdükçe yanlışların burada birikir.</div></div>');
     var not = g('not');
-    if (not.length) html += '<h2>Notlardaki sorular</h2><div class="grid">' + not.map(function (e) { return examCard(c, e); }).join('') + '</div>';
-    html += '<h2 class="sec-title">Test <small>çoktan seçmeli · ' + n.mc + ' soruluk banka</small></h2><div class="grid">' +
-      g('test').map(function (e) { return examCard(c, e); }).join('') +
-      randCard(c, 'test', 'Rastgele test', 'Soru sayısını seç (20–50). Her açılışta farklı sorular.', sizes) + '</div>';
-    html += '<h2 class="sec-title">Boşluk doldurma + Doğru/Yanlış <small>' + n.fill + ' boşluk · ' + n.tf + ' D/Y</small></h2><div class="grid">' +
-      g('bdy').map(function (e) { return examCard(c, e); }).join('') +
-      randCard(c, 'bdy', 'Rastgele boşluk + D/Y', '10 boşluk + 10 D/Y, her açılışta farklı.') + '</div>';
-    html += '<h2 class="sec-title">Klasik (soru-cevap) <small>' + n.open + ' soru</small></h2><div class="grid">' +
-      g('klasik').map(function (e) { return examCard(c, e); }).join('') +
-      randCard(c, 'klasik', 'Rastgele klasik', '5 soru-cevap.') + '</div>';
-    html += '<h2 class="sec-title">Uzun klasik vize <small>4 soru · her soru bir konu, tüm ayrıntılar</small></h2><div class="grid">' +
-      g('uzun').map(function (e) { return examCard(c, e); }).join('') +
-      randCard(c, 'uzun', 'Rastgele uzun klasik', '4 uzun soru, ' + n.long + ' soruluk bankadan.') + '</div>';
-    html += '<h2>Konu testleri</h2><p class="lead">Konu konu tüm soru tipleri, anında kontrol.</p><div class="grid">' +
-      g('konu').map(function (e) { return examCard(c, e); }).join('') + '</div>';
+    if (not.length) html += grp('Notlardaki sorular', '', not.map(function (e) { return examCard(c, e); }).join(''));
+    html += grp('Test', 'çoktan seçmeli · ' + n.mc + ' soruluk banka', g('test').map(function (e) { return examCard(c, e); }).join('') +
+      randCard(c, 'test', 'Rastgele test', 'Soru sayısını seç (20–50). Her açılışta farklı sorular.', sizes));
+    html += grp('Boşluk doldurma + Doğru/Yanlış', n.fill + ' boşluk · ' + n.tf + ' D/Y', g('bdy').map(function (e) { return examCard(c, e); }).join('') +
+      randCard(c, 'bdy', 'Rastgele boşluk + D/Y', '10 boşluk + 10 D/Y, her açılışta farklı.'));
+    html += grp('Klasik (soru-cevap)', n.open + ' soru', g('klasik').map(function (e) { return examCard(c, e); }).join('') +
+      randCard(c, 'klasik', 'Rastgele klasik', '5 soru-cevap.'));
+    html += grp('Uzun klasik vize', '4 soru · her soru bir konu, tüm ayrıntılar', g('uzun').map(function (e) { return examCard(c, e); }).join('') +
+      randCard(c, 'uzun', 'Rastgele uzun klasik', '4 uzun soru, ' + n.long + ' soruluk bankadan.'));
+    html += grp('Konu testleri', 'konu konu tüm soru tipleri, anında kontrol', g('konu').map(function (e) { return examCard(c, e); }).join(''));
     app.innerHTML = html;
     app.querySelectorAll('[data-rand]').forEach(function (b) {
       b.onclick = function () {
@@ -342,12 +360,13 @@
 
   function drawRunner() {
     var c = S.c, e = S.exam;
-    var html = tabs(c, 'test') + '<a class="back" href="#/' + c.id + '/test">← Testler</a>' +
-      '<div class="runhead"><div><h2 style="margin:0">' + esc(e.title) + '</h2><div class="lead" style="margin:2px 0 0">' + rich(e.desc || '') + '</div></div>' +
+    var html = '<div class="test-head"><a class="back" href="#/' + c.id + '/test">← Testler</a><h1>' + esc(e.title) + '</h1><div class="info">' +
       '<div class="seg"><button data-mode="practice" class="' + (S.mode === 'practice' ? 'on' : '') + '">Pratik</button>' +
-      '<button data-mode="exam" class="' + (S.mode === 'exam' ? 'on' : '') + '">Sınav</button></div></div>' +
-      '<div class="progress"><div class="bar"><i id="pbar"></i></div><div class="txt"><span id="ptxt"></span><span id="pscore"></span></div></div>' +
-      '<div id="qs"></div><div id="endzone"></div>';
+      '<button data-mode="exam" class="' + (S.mode === 'exam' ? 'on' : '') + '">Sınav</button></div>' +
+      '<span>' + e.questions.length + ' soru · ' + (S.mode === 'exam' ? 'cevaplar sonda puanlanır' : 'her soru anında kontrol edilir') + '</span></div>' +
+      (e.desc ? '<p class="lead" style="margin:8px 0 0">' + rich(e.desc) + '</p>' : '') + '</div>' +
+      '<div id="endtop"></div><div id="qs"></div><div id="endzone"></div>' +
+      '<div class="progress" id="prog"><span id="ptxt"></span><span id="pscore"></span><span class="grow"></span><span id="pact"></span></div>';
     app.innerHTML = html;
     app.querySelectorAll('[data-mode]').forEach(function (b) {
       b.onclick = function () {
@@ -357,7 +376,10 @@
     });
     var box = $('#qs'), lastType = null, multi = new Set(e.questions.map(function (q) { return q.type; })).size > 1;
     e.questions.forEach(function (q, i) {
-      if (multi && q.type !== lastType && e.group !== 'konu') box.appendChild(el('<div class="section-h">' + TYPE_NAME[q.type] + '</div>'));
+      if (multi && q.type !== lastType && e.group !== 'konu') {
+        var cnt = e.questions.filter(function (x) { return x.type === q.type; }).length;
+        box.appendChild(el('<div class="section-title"><h2>' + TYPE_NAME[q.type] + '</h2><span class="sp">' + cnt + ' soru</span></div>'));
+      }
       lastType = q.type;
       box.appendChild(qEl(q, i));
     });
@@ -383,35 +405,37 @@
     var cls = '';
     if (done) {
       var r = correctness(q);
-      cls = (q.type === 'open' || q.type === 'long') ? (r >= 0.99 ? 'ok' : r > 0 ? 'part' : 'no') : (r === 1 ? 'ok' : 'no');
+      cls = (q.type === 'open' || q.type === 'long') ? (r >= 0.99 ? 'is-ok' : r > 0 ? 'is-part' : 'is-bad') : (r === 1 ? 'is-ok' : 'is-bad');
     }
     var topic = S.c.topicMap[q.topic];
-    html += '<div class="q ' + cls + '" id="q-' + q.id + '"><div class="qhead"><span class="qnum">' + (i + 1) + '.</span>' +
-      '<span class="badge">' + TYPE_NAME[q.type] + '</span>' + (topic && S.exam.group !== 'konu' ? '<span>' + esc(topic.title) + '</span>' : '') +
-      (q.src ? '<span class="badge">' + esc(q.src) + '</span>' : '') + '</div>';
-    html += '<div class="qtext">' + rich(q.type === 'fill' ? q.q.replace(/_{3,}/g, '______') : q.q) + '</div>';
+    var resTxt = '';
+    if (done) { var rr = correctness(q); resTxt = (q.type === 'open' || q.type === 'long') ? '<span class="res ' + (rr >= .99 ? 'ok' : rr > 0 ? '' : 'bad') + '">%' + Math.round(rr * 100) + '</span>' : '<span class="res ' + (rr === 1 ? 'ok">Doğru' : 'bad">Yanlış') + '</span>'; }
+    html += '<div class="q ' + cls + '" id="q-' + q.id + '"><div class="q-top"><span class="qn">' + (i + 1) + '.</span>' +
+      '<span class="badge exam">' + TYPE_NAME[q.type] + '</span>' + (topic && S.exam.group !== 'konu' ? '<span class="badge">' + esc(topic.title) + '</span>' : '') +
+      (q.src ? '<span class="badge">' + esc(q.src) + '</span>' : '') + resTxt + '</div>';
+    html += '<div class="q-text">' + rich(q.type === 'fill' ? q.q.replace(/_{3,}/g, '______') : q.q) + '</div>';
 
     if (q.type === 'mc') {
-      html += '<div class="opts">' + q.opts.map(function (o, k) {
+      html += '<ul class="opts">' + q.opts.map(function (o, k) {
         var c2 = '';
         if (done) { if (k === q.a) c2 = 'right'; else if (k === a) c2 = 'wrong'; }
         else if (k === a) c2 = 'sel';
-        return '<button class="opt ' + c2 + '" data-k="' + k + '"' + (done ? ' disabled' : '') + '><span class="l">' + LETTERS[k] + ')</span><span>' + rich(o) + '</span></button>';
-      }).join('') + '</div>';
+        return '<li><button type="button" class="opt ' + c2 + '" data-k="' + k + '"' + (done ? ' disabled' : '') + '><span class="L">' + LETTERS[k] + '</span><span>' + rich(o) + '</span></button></li>';
+      }).join('') + '</ul>';
     } else if (q.type === 'tf') {
-      html += '<div class="tfrow">' + [true, false].map(function (v) {
+      html += '<ul class="opts tf-opts">' + [true, false].map(function (v) {
         var c2 = '';
         if (done) { if (v === q.ans) c2 = 'right'; else if (v === a) c2 = 'wrong'; }
         else if (v === a) c2 = 'sel';
-        return '<button class="opt ' + c2 + '" data-v="' + v + '"' + (done ? ' disabled' : '') + '>' + (v ? 'Doğru' : 'Yanlış') + '</button>';
-      }).join('') + '</div>';
+        return '<li><button type="button" class="opt ' + c2 + '" data-v="' + v + '"' + (done ? ' disabled' : '') + '><span class="L">' + (v ? 'D' : 'Y') + '</span><span>' + (v ? 'Doğru' : 'Yanlış') + '</span></button></li>';
+      }).join('') + '</ul>';
     } else if (q.type === 'fill') {
       var ic = done ? (correctness(q) ? 'right' : 'wrong') : '';
-      html += '<div class="fillrow"><input type="text" class="' + ic + '" value="' + esc(a || '') + '" placeholder="Boşluğa gelecek ifade" autocomplete="off" autocapitalize="off"' + (done ? ' disabled' : '') + '>' +
-        (S.mode === 'practice' && !done ? '<button class="btn small" data-check>Kontrol</button>' : '') + '</div>';
+      html += '<div class="fill-row"><input type="text" class="fill-in ' + ic + '" value="' + esc(a || '') + '" placeholder="Boşluğa gelecek ifade" autocomplete="off" autocapitalize="off"' + (done ? ' disabled' : '') + '>' +
+        (S.mode === 'practice' && !done ? '<button type="button" class="btn" data-check>Kontrol et</button><span class="hint">veya Enter</span>' : '') + '</div>';
     } else {
-      html += '<textarea class="' + (q.type === 'long' ? 'long' : '') + '" placeholder="Cevabını buraya yaz…"' + (done ? ' readonly' : '') + '>' + esc(a || '') + '</textarea>' +
-        (S.mode === 'practice' && !done ? '<button class="btn small" data-show>Cevabı göster</button>' : '');
+      html += '<textarea class="open-in' + (q.type === 'long' ? ' long' : '') + '" rows="' + (q.type === 'long' ? 8 : 4) + '" placeholder="Cevabını buraya yaz…"' + (done ? ' readonly' : '') + '>' + esc(a || '') + '</textarea>' +
+        (S.mode === 'practice' && !done ? '<div class="q-actions"><button type="button" class="btn ghost" data-show>Cevabı göster</button></div>' : '');
     }
     if (done) html += feedback(q);
     html += '</div>';
@@ -422,18 +446,18 @@
 
   function feedback(q) {
     var a = S.ans[q.id], rule = S.c.rules[q.topic];
-    var ruleHtml = rule ? '<div class="rule"><b>Kural:</b> ' + rich(rule) + '</div>' : '';
+    var ruleHtml = rule ? '<div class="rule"><b>Kural · ' + esc((S.c.topicMap[q.topic] || {}).title || '') + ':</b> ' + rich(rule) + '</div>' : '';
     if (q.type === 'open' || q.type === 'long') {
       var t = S.ticks[q.id] || [];
       var pts = Math.round(correctness(q) * (q.type === 'long' ? 25 : 100));
-      return '<div class="fb info"><span class="h">Örnek cevap</span><div class="model">' + rich(q.model) + '</div>' +
-        '<div style="margin-top:10px"><b>Cevabında bu noktalar var mı?</b> İşaretle, puanın hesaplansın.</div><ul class="checks">' +
+      return '<div class="exp"><div class="ans ok">Örnek cevap</div><div class="model">' + rich(q.model) + '</div>' +
+        '<div class="rule"><b>Cevabında bu noktalar var mı?</b> İşaretle, puanın hesaplansın.</div><ul class="checks">' +
         q.pts.map(function (p, k) { return '<li><label><input type="checkbox" data-tick="' + k + '"' + (t[k] ? ' checked' : '') + '><span>' + rich(p) + '</span></label></li>'; }).join('') +
         '</ul><div class="selfscore">Puanın: ' + pts + (q.type === 'long' ? ' / 25' : ' / 100') + '</div></div>';
     }
     var ok = correctness(q) === 1;
     if (a !== undefined && a !== null && a !== '') logWrong(S.c, q, ok);
-    var h = ok ? 'Doğru' : 'Yanlış';
+    var h = ok ? 'Doğru.' : 'Yanlış';
     var right = '';
     if (!ok) {
       if (q.type === 'mc') right = ' — doğru cevap: <b>' + LETTERS[q.a] + ') ' + rich(q.opts[q.a]) + '</b>';
@@ -441,8 +465,8 @@
       if (q.type === 'fill') right = ' — doğru cevap: <b>' + rich(q.ans[0]) + '</b>' + (a ? '' : ' (boş bıraktın)');
     } else if (q.type === 'fill' && norm(a) !== norm(q.ans[0])) right = ' — tam ifade: <b>' + rich(q.ans[0]) + '</b>';
     var why = '';
-    if (!ok && q.type === 'mc' && a != null && q.why[a]) why = '<div class="rule"><b>Senin cevabın:</b> ' + rich(q.why[a]) + '</div>';
-    return '<div class="fb ' + (ok ? 'ok' : 'no') + '"><span class="h">' + h + right + '</span>' + rich(q.exp || '') + why + (ok ? '' : ruleHtml) + '</div>';
+    if (!ok && q.type === 'mc' && a != null && q.why[a]) why = '<div class="why"><b>Senin cevabın (' + LETTERS[a] + '):</b> ' + rich(q.why[a]) + '</div>';
+    return '<div class="exp"><div class="ans ' + (ok ? 'ok' : 'bad') + '">' + h + right + '</div>' + rich(q.exp || '') + why + (ok ? '' : ruleHtml) + '</div>';
   }
 
   function refresh(q, i) {
@@ -494,25 +518,26 @@
       if (answered) k++;
       if (isDone(q) && q.type !== 'open' && q.type !== 'long') { checked++; if (correctness(q) === 1) ok++; }
     });
-    var bar = $('#pbar'); if (bar) bar.style.width = (n ? k / n * 100 : 0) + '%';
-    var t = $('#ptxt'); if (t) t.textContent = k + ' / ' + n + (S.mode === 'practice' ? ' kontrol edildi' : ' cevaplandı');
+    var t = $('#ptxt'); if (t) t.innerHTML = '<span class="done">' + k + ' / ' + n + '</span> ' + (S.mode === 'practice' ? 'kontrol edildi' : 'cevaplandı');
     var sc = $('#pscore');
-    if (sc) sc.textContent = S.finished ? 'Puan: ' + score() : (S.mode === 'practice' && checked ? ok + ' / ' + checked + ' doğru' : '');
+    if (sc) sc.innerHTML = S.finished ? '· <span class="done">Puan: ' + score() + '</span>' : (checked ? '· <span class="ok">Doğru ' + ok + '</span> · <span class="bad">Yanlış ' + (checked - ok) + '</span>' : '');
   }
 
   function drawEnd() {
     var z = $('#endzone'); if (!z) return;
     var c = S.c, e = S.exam;
-    var again = e.random ? '<button class="btn ghost" id="again">Yeni rastgele</button>' : '<button class="btn ghost" id="again">Baştan çöz</button>';
+    var again = e.random ? '<button type="button" class="btn ghost" id="again">Yeni sorular</button>' : '<button type="button" class="btn ghost" id="again">Baştan</button>';
+    var pact = $('#pact');
     if (S.mode === 'exam' && !S.finished) {
-      z.innerHTML = '<div class="actions"><button class="btn" id="finish">Sınavı bitir ve puanla</button></div>';
+      z.innerHTML = '';
+      pact.innerHTML = '<button type="button" class="btn" id="finish">Sınavı bitir</button>';
       $('#finish').onclick = function () {
         var empty = e.questions.filter(function (q) { var a = S.ans[q.id]; return a === undefined || a === ''; }).length;
         if (empty && !window.confirm(empty + ' soru boş. Yine de bitirilsin mi?')) return;
         S.finished = true;
         saveBest();
         drawRunner();
-        var r = $('#result'); if (r) r.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       };
       return;
     }
@@ -520,12 +545,14 @@
     var res = '';
     if (S.finished) {
       var wrong = e.questions.filter(function (q) { return q.type !== 'open' && q.type !== 'long' && correctness(q) < 1; }).length;
-      res = '<div class="result" id="result"><div class="big">' + score() + ' / 100</div><div class="row">' +
+      res = '<div class="result" id="result"><div class="score">' + score() + ' <small>/ 100</small></div><div class="row2">' +
         '<span>' + e.questions.length + ' soru</span>' + (wrong || !hasOpen ? '<span>' + wrong + ' yanlış/boş (otomatik puanlanan)</span>' : '') + '</div>' +
-        (hasOpen ? '<p style="margin:8px 0 0">Klasik sorularda örnek cevaba bakıp yazdığın anahtar noktaları işaretle; puan kendiliğinden güncellenir.</p>' : '') + '</div>';
+        (hasOpen ? '<p style="margin:8px 0 0">Klasik sorularda örnek cevaba bakıp yazdığın anahtar noktaları işaretle; puan kendiliğinden güncellenir.</p>' : '') + '<div class="actions"><a class="btn ghost" href="#/' + c.id + '/test">Testlere dön</a></div></div>';
       saveBest();
     }
-    z.innerHTML = res + '<div class="actions">' + again + '<a class="btn ghost" href="#/' + c.id + '/test">Testlere dön</a></div>';
+    z.innerHTML = '';
+    var top = $('#endtop'); if (top) top.innerHTML = res;
+    pact.innerHTML = again;
     $('#again').onclick = function () {
       if (e.random) { route(); return; }
       S.ans = {}; S.done = {}; S.ticks = {}; S.finished = false; drawRunner(); window.scrollTo(0, 0);
@@ -542,8 +569,10 @@
   function start() {
     app = $('#app');
     var tb = $('#themeBtn');
-    var label = function () { tb.textContent = document.documentElement.dataset.theme === 'light' ? 'Koyu tema' : 'Açık tema'; };
+    var label = function () { tb.title = document.documentElement.dataset.theme === 'light' ? 'Koyu temaya geç' : 'Açık temaya geç'; };
     label();
+    window.addEventListener('scroll', function () { if (VIEW.indexOf('/tekrar') > 0) spy(); }, { passive: true });
+    window.addEventListener('resize', function () { var t = document.querySelector('.topbar'); if (t) document.documentElement.style.setProperty('--toph', t.offsetHeight + 'px'); });
     tb.onclick = function () {
       var t = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
       document.documentElement.dataset.theme = t;

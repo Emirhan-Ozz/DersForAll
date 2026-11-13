@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vize Çalışma</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%232f6bf0%22/%3E%3Cpath d=%22M9 17l5 5 9-11%22 stroke=%22white%22 stroke-width=%223.5%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=2">
-<link rel="stylesheet" href="assets/ui.css?v=20261113b">
+<link rel="stylesheet" href="assets/style.css?v=20261113c">
 <script>
   try { var t = localStorage.getItem('enesders-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
 </script>
@@ -28,17 +27,18 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
 <script src="../phase.js?v=1"></script>
 </head>
 <body>
-<header class="top">
-  <div class="top-inner">
-    <a class="brand" href="#/">Vize Çalışma</a>
-    <nav class="courses" id="courseNav"></nav>
-    <button class="theme" id="themeBtn" type="button" title="Tema değiştir">Açık tema</button>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#/"><i></i>Vize Çalışma<span id="brandSub"> · 5 ders</span></a>
+    <nav class="courses" id="courseNav" aria-label="Dersler"></nav>
+    <nav class="tabs" id="tabNav" aria-label="Bölümler" hidden></nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Tema değiştir" title="Açık / koyu tema">◐</button>
   </div>
 </header>
-<main id="app"></main>
+<main id="app" class="container"></main>
 <footer class="foot">Notlardaki bilgilere göre hazırlanmıştır. Notta olmayan konu eklenmemiştir.</footer>
 
-<script src="assets/app.js?v=20261111k"></script>
+<script src="assets/app.js?v=20261113c"></script>
 <script src="data/tahil.js"></script>
 <script src="data/kanatli.js"></script>
 <script src="data/genetik.js"></script>
