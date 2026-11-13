@@ -18,7 +18,7 @@ index.html            üst bar (ders seçici + Anlatım / Test), betik sırası
 assets/app.js         motor: yönlendirme, İçindekiler, bloklar, porte ve klavye çizimi
 assets/music.js       nota matematiği (Piano notes sitesinden)
 assets/style.css      Starter düzeni (EnesDers'ten)
-assets/theme.css      lacivert #0D0F54 tema, müzik bileşenleri
+assets/theme.css      mor #200A4A tema, müzik bileşenleri
 assets/fonts/         Noto Music (müzik sembolleri)
 data/<ders>.js        App.course({...}): konular ve önemli noktalar
 kit-init.js           arama dizini

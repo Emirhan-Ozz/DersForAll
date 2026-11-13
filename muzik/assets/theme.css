@@ -1,58 +1,58 @@
-/* Müzik dersleri · lacivert #0D0F54 tema.
-   Koyu modda zemin doğrudan #0D0F54; vurgu açık mavi-lavanta, ikincil renk sıcak altın (nota sarısı).
+/* Müzik dersleri · mor #200A4A tema.
+   Koyu modda zemin doğrudan #200A4A; vurgu açık mavi-lavanta, ikincil renk sıcak altın (nota sarısı).
    style.css'in (Starter yapısı) değişkenlerini ezer. */
 @font-face { font-family: 'Noto Music'; src: url(fonts/noto-music.woff2) format('woff2'); font-display: block; }
 
 :root {
-  --bg: #f3f4fb;
+  --bg: #f6f3fc;
   --surface: #ffffff;
-  --surface-2: #eceefa;
-  --text: #0d0f54;
-  --muted: #555b8f;
-  --border: #dadef3;
-  --accent: #2c36c4;
-  --accent-soft: #e5e8fc;
+  --surface-2: #efe9fa;
+  --text: #200a4a;
+  --muted: #5e4f86;
+  --border: #e2dcf3;
+  --accent: #5b2bc4;
+  --accent-soft: #ece4fd;
   --gold: #a87710;
   --gold-soft: #fbf1d8;
   --ok: #1d8348; --ok-soft: #e5f5ec;
   --bad: #c0392b; --bad-soft: #fbeaea;
   --warn: #9a6700; --warn-soft: #fff6e0;
-  --shadow: 0 1px 2px rgba(13, 15, 84, .06), 0 8px 22px rgba(13, 15, 84, .07);
-  --band: linear-gradient(90deg, #0d0f54, #3b4bdc 55%, #c99a2e);
-  --ink: #0d0f54;
-  --kw-1: #ffffff; --kw-2: #eef0fb; --kw-edge: #c3c8e6;
+  --shadow: 0 1px 2px rgba(32, 10, 74, .06), 0 8px 22px rgba(32, 10, 74, .07);
+  --band: linear-gradient(90deg, #200a4a, #6a3bd6 55%, #c99a2e);
+  --ink: #200a4a;
+  --kw-1: #ffffff; --kw-2: #f1ecfb; --kw-edge: #cdc2e8;
 }
 :root[data-theme="dark"] {
-  --bg: #0d0f54;
-  --surface: #14176a;
-  --surface-2: #1b1f7a;
-  --text: #eceeff;
-  --muted: #aab0e0;
-  --border: #2b3190;
-  --accent: #9aabff;
-  --accent-soft: #222887;
+  --bg: #200a4a;
+  --surface: #2a1160;
+  --surface-2: #331770;
+  --text: #f1ebff;
+  --muted: #b9a8de;
+  --border: #45238a;
+  --accent: #b79bff;
+  --accent-soft: #3a1c78;
   --gold: #f0c96a;
-  --gold-soft: #2e2a5e;
-  --ok: #5fd394; --ok-soft: #133a3a;
-  --bad: #ff8f86; --bad-soft: #3a1a4c;
-  --warn: #f0c96a; --warn-soft: #2c2a62;
-  --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 10px 30px rgba(3, 4, 30, .35);
-  --band: linear-gradient(90deg, #6f83ff, #b8c4ff 55%, #f0c96a);
-  --ink: #eceeff;
-  --kw-1: #f4f5ff; --kw-2: #d9ddf5; --kw-edge: #05062c;
+  --gold-soft: #3b2654;
+  --ok: #5fd394; --ok-soft: #173a33;
+  --bad: #ff8f86; --bad-soft: #4a1a4a;
+  --warn: #f0c96a; --warn-soft: #3b2654;
+  --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 10px 30px rgba(12, 3, 30, .35);
+  --band: linear-gradient(90deg, #9b7bff, #d4c2ff 55%, #f0c96a);
+  --ink: #f1ebff;
+  --kw-1: #f6f2ff; --kw-2: #ddd3f3; --kw-edge: #12052e;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d0f54; --surface: #14176a; --surface-2: #1b1f7a; --text: #eceeff; --muted: #aab0e0; --border: #2b3190;
-    --accent: #9aabff; --accent-soft: #222887; --gold: #f0c96a; --gold-soft: #2e2a5e;
-    --ok: #5fd394; --ok-soft: #133a3a; --bad: #ff8f86; --bad-soft: #3a1a4c; --warn: #f0c96a; --warn-soft: #2c2a62;
-    --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 10px 30px rgba(3, 4, 30, .35);
-    --band: linear-gradient(90deg, #6f83ff, #b8c4ff 55%, #f0c96a); --ink: #eceeff;
-    --kw-1: #f4f5ff; --kw-2: #d9ddf5; --kw-edge: #05062c;
+    --bg: #200a4a; --surface: #2a1160; --surface-2: #331770; --text: #f1ebff; --muted: #b9a8de; --border: #45238a;
+    --accent: #b79bff; --accent-soft: #3a1c78; --gold: #f0c96a; --gold-soft: #3b2654;
+    --ok: #5fd394; --ok-soft: #173a33; --bad: #ff8f86; --bad-soft: #4a1a4a; --warn: #f0c96a; --warn-soft: #3b2654;
+    --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 10px 30px rgba(12, 3, 30, .35);
+    --band: linear-gradient(90deg, #9b7bff, #d4c2ff 55%, #f0c96a); --ink: #f1ebff;
+    --kw-1: #f6f2ff; --kw-2: #ddd3f3; --kw-edge: #12052e;
   }
 }
 
-/* zemin: lacivert üstünde yumuşak ışık */
+/* zemin: mor üstünde yumuşak ışık */
 body { background:
   radial-gradient(900px 460px at 0% -10%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 70%),
   radial-gradient(800px 420px at 100% 0%, color-mix(in srgb, var(--gold) 9%, transparent), transparent 70%),
@@ -147,13 +147,13 @@ body { background:
   background: linear-gradient(180deg, var(--kw-2), var(--kw-1) 12%, var(--kw-1) 85%, var(--kw-2));
   border: 1px solid var(--kw-edge); border-top: 0; border-radius: 0 0 6px 6px;
   display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 2px; color: #1d2160; font: 600 .7rem system-ui, sans-serif; box-shadow: 0 3px 0 var(--kw-edge); }
-.bk { position: absolute; top: 0; height: 60%; z-index: 2; padding: 0 0 5px; background: linear-gradient(180deg, #23264f, #0a0b24 85%, #2d3160);
-  border: 1px solid #05062c; border-top: 0; border-radius: 0 0 4px 4px; display: flex; align-items: flex-end; justify-content: center;
-  color: #e8eaff; font: 600 .52rem/1.15 system-ui, sans-serif; text-align: center; box-shadow: 0 3px 4px rgba(0, 0, 0, .35); }
+.bk { position: absolute; top: 0; height: 60%; z-index: 2; padding: 0 0 5px; background: linear-gradient(180deg, #2e1a52, #0f0624 85%, #3a2264);
+  border: 1px solid #12052e; border-top: 0; border-radius: 0 0 4px 4px; display: flex; align-items: flex-end; justify-content: center;
+  color: #efe8ff; font: 600 .52rem/1.15 system-ui, sans-serif; text-align: center; box-shadow: 0 3px 4px rgba(0, 0, 0, .35); }
 .wk.hi { background: linear-gradient(180deg, #ffe7a8, #f3cf72); }
 .bk.hi { background: linear-gradient(180deg, #c99a2e, #7d5b12); }
 .wk em { font-style: normal; font-weight: 800; color: #fff; background: var(--accent); border-radius: 50%; width: 18px; height: 18px; display: grid; place-items: center; font-size: .66rem; }
-:root[data-theme="dark"] .wk em { color: #0d0f54; }
+:root[data-theme="dark"] .wk em { color: #200a4a; }
 .mark { position: absolute; bottom: 26px; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: #c0392b; }
 
 /* tablolar: ilk sütun belirgin */
