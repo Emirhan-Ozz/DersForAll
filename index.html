@@ -193,6 +193,22 @@
   .sofl .back{background-image:radial-gradient(circle at 100% 100%, rgba(180,169,234,.18), transparent 55%), radial-gradient(circle at 0% 0%, rgba(143,179,217,.15), transparent 50%)}
   .sudis .back{background-image:radial-gradient(circle at 100% 100%, rgba(79,199,154,.16), transparent 55%), radial-gradient(circle at 0% 0%, rgba(164,219,0,.14), transparent 50%)}
 
+  /* ---------- Müzik (Umutcan): Starter kart yapısı, lacivert #0D0F54 ---------- */
+  .muz{--accent:#4a5ae6; --band:linear-gradient(90deg,#6f83ff,#b8c4ff 55%,#f0c96a); --soft:#222887; --hi:#b8c4ff}
+  .muz .front::before{background:linear-gradient(90deg,#0d0f54,#3b4bdc 55%,#c99a2e)}
+  .muz .back{padding:0; background:#0d0f54; color:#eceeff; border:1px solid #2b3190; font-family:inherit; box-shadow:0 8px 26px rgba(3,4,30,.45);
+    background-image:radial-gradient(circle at 100% 100%, rgba(240,201,106,.16), transparent 55%), radial-gradient(circle at 0% 0%, rgba(111,131,255,.22), transparent 50%)}
+  .muz .ui-bar{background:#14176a; border-color:#2b3190; position:relative}
+  .muz .ui-bar::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--band)}
+  .muz .ui-bar i{color:#aab0e0; background:none}
+  .muz .ui-bar i.on{background:var(--soft); color:var(--hi)}
+  .muz .ui-body{padding:10px 16px 12px; gap:7px}
+  .muz .b-title.sm{display:block; font-weight:700; font-size:1rem; background:var(--band); -webkit-background-clip:text; background-clip:text; color:transparent; width:fit-content}
+  .muz .mini{background:#14176a; border-color:#2b3190}
+  .muz .mini em{color:#f0c96a}
+  .muz .go{color:#f0c96a; font-weight:600}
+  .muz .wm{font-family:inherit; font-size:2.4rem; bottom:38px; color:transparent; background:var(--band); -webkit-background-clip:text; background-clip:text; opacity:.3}
+
   /* dokunmatik: takla yok, kart düz kalır */
   @media (prefers-reduced-motion: reduce){ .flip{transition:none} }
 
@@ -277,8 +293,8 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
 <main>
   <p class="eyebrow">Emirhan Öz</p>
   <h1>DersForAll</h1>
-  <p class="lead">Arkadaşlar için hazırlanan beş çalışma sitesi. Kartın üstüne gel, açılacak sitenin temasını gör.</p>
-  <ul class="stats"><li><b>5</b>çalışma sitesi</li><li><b>5</b>tarım dersi</li><li><b>250</b>Python sorusu</li><li><b>114</b>C# sorusu</li><li><b>3452</b>Almanca kelime</li><li><b>63</b>gramer bölümü</li></ul>
+  <p class="lead">Arkadaşlar için hazırlanan altı çalışma sitesi. Kartın üstüne gel, açılacak sitenin temasını gör.</p>
+  <ul class="stats"><li><b>6</b>çalışma sitesi</li><li><b>5</b>tarım dersi</li><li><b>4</b>müzik dersi</li><li><b>250</b>Python sorusu</li><li><b>114</b>C# sorusu</li><li><b>3452</b>Almanca kelime</li><li><b>63</b>gramer bölümü</li></ul>
 
   <div class="grid">
     <a class="card enes" href="enesders/" aria-label="EnesDers vize çalışma sitesini aç">
@@ -380,6 +396,25 @@ Console.<span class="f">WriteLine</span>(toplam);</div>
       </div>
     </a>
 
+    <a class="card muz" href="muzik/" aria-label="Müzik dersleri sitesini aç">
+      <div class="flip">
+        <div class="face front">
+          <span class="tag">Müzik</span>
+          <h2>Müzik Dersleri <small>(4 ders · konu anlatımı)</small></h2>
+          <p>Pİ101 Piyano, ÇEL101 Viyolonsel, MÜZ1017 Müzik Teorisi, MÜZ1021 Antik Uygarlıklar ve Müzik.</p>
+        </div>
+        <div class="face back" aria-hidden="true">
+          <span class="wm">Umutcan</span>
+          <div class="ui-bar"><i class="on">Anlatım</i><i>Test</i></div>
+          <div class="ui-body">
+            <span class="b-title sm">MÜZ1017 · Müzik Teorisi</span>
+            <div class="mini"><b>Önemli noktalar</b><span><em>1</em><i>Tam ses = <strong>9</strong> koma</i></span><span><em>2</em>Diyez sırası: Fa–Do–Sol–Re…</span></div>
+            <span class="go">Siteyi aç →</span>
+          </div>
+        </div>
+      </div>
+    </a>
+
   </div>
   <section class="more" aria-label="Ek bölümler">
     <h2 class="sec">Hızlı erişim</h2>
@@ -414,14 +449,21 @@ Console.<span class="f">WriteLine</span>(toplam);</div>
         <a href="mbp193/#test/deneme1">Deneme vizesi 1<span>→</span></a>
         <a href="mbp193/#test/rastgele">Rastgele vize<span>→</span></a>
       </div>
+      <div class="ql" style="--c:#6f83ff"><p class="ql-h"><i></i>Müzik<small>Umutcan</small></p>
+        <a href="muzik/#/pi101">Pİ101 · Piyano<span>→</span></a>
+        <a href="muzik/#/cel101">ÇEL101 · Viyolonsel<span>→</span></a>
+        <a href="muzik/#/muz1017">MÜZ1017 · Müzik teorisi<span>→</span></a>
+        <a href="muzik/#/muz1021">MÜZ1021 · Antik uygarlıklar<span>→</span></a>
+        <a href="muzik/#/muz1017/tekrar/usul">Türk müziği usulleri<span>→</span></a>
+      </div>
     </div>
     <div class="duo">
       <div class="panel"><h2 class="sec">Son eklenenler</h2><ol class="tl">
+        <li style="--c:#6f83ff"><b>Müzik · 4 ders (Umutcan)</b><span>Yeni site: piyano, viyolonsel, müzik teorisi ve antik uygarlıklar kitapları konu konu ayrıntılı anlatıldı; porte ve klavye çizimleri, lacivert tema. Testler sonra eklenecek.</span></li>
         <li style="--c:#0f8a7e"><b>MBP193 · Programlama Temelleri (C#)</b><span>Yeni site: 10 konu özeti, 114 test ve boşluk sorusu, 3 deneme vizesi; 24 görevlik for / while kod yazma bölümü. Bütün kodlar C# ile çalıştırılarak doğrulandı.</span></li>
         <li style="--c:#5b95ff"><b>Tüm siteler · Yanlışlarım, arama, sesli okuma</b><span>Yanlış yaptığın sorular ayrı testte birikir; 🔍 ile site içinde ara; Almanca ve İngilizce kelimeleri dinle.</span></li>
         <li style="--c:#8fbf0a"><b>Sudis · Almanca Kitap Özeti ve Sözlük</b><span>Gramer kitabının tüm konuları, 3452 kelimelik flashcard sözlük, yeni lime tema.</span></li>
         <li style="--c:#b393e6"><b>Starter–Intermediate Python</b><span>10 konu özeti, konu başına 2 test ve 250 soruluk rastgele havuz.</span></li>
-        <li style="--c:#8fb3d9"><b>Tüm siteler · yumuşak sayfa geçişleri</b><span>Site içinde sayfa değişirken içerik kayarak geçiyor.</span></li>
       </ol></div>
       <div class="panel"><h2 class="sec">Nasıl çalışılır?</h2><ol class="steps">
         <li><div><b>Önce konu özetini oku</b><span>Tekrar bölümleri dersin ya da kitabın sırasını izler; tuzak notlarına özellikle bak.</span></div></li>

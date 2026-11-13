@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0d0f54">
+<title>Müzik · 4 ders</title>
+<meta name="description" content="Pİ101 Piyano, ÇEL101 Viyolonsel, MÜZ1017 Müzik Teorisi ve MÜZ1021 Antik Uygarlıklar ve Müzik derslerinin ayrıntılı konu anlatımı.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%230d0f54%22/%3E%3Cpath d=%22M13 22.5V9l10-2.5v13%22 stroke=%22%23f0c96a%22 stroke-width=%222.2%22 fill=%22none%22/%3E%3Cellipse cx=%2210.4%22 cy=%2222.6%22 rx=%223%22 ry=%222.3%22 fill=%22%23f0c96a%22/%3E%3Cellipse cx=%2220.4%22 cy=%2220.1%22 rx=%223%22 ry=%222.3%22 fill=%22%23f0c96a%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css?v=20261114a">
+<link rel="stylesheet" href="assets/theme.css?v=20261114a">
+<script>
+  try { var t = localStorage.getItem('muzik-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<style id="vt-slide">
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:.5s cubic-bezier(.65,0,.25,1) both vt-out-l}
+::view-transition-new(root){animation:.5s cubic-bezier(.65,0,.25,1) both vt-in-r}
+html:active-view-transition-type(back)::view-transition-old(root){animation-name:vt-out-r}
+html:active-view-transition-type(back)::view-transition-new(root){animation-name:vt-in-l}
+@keyframes vt-out-l{to{transform:translateX(-100%)}}
+@keyframes vt-in-r{from{transform:translateX(100%)}}
+@keyframes vt-out-r{to{transform:translateX(100%)}}
+@keyframes vt-in-l{from{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+</style>
+<script id="vt-dir">
+addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=navigation.activation;if(!a||!a.from)return;var d=function(u){return new URL(u).pathname.replace(/index\.html$/,'').split('/').filter(Boolean).length};e.viewTransition.types.add(d(a.entry.url)<d(a.from.url)?'back':'forward')}catch(_){}});
+</script>
+<script src="../phase.js?v=1"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#/"><i></i>Müzik<span id="brandSub"> · 4 ders</span></a>
+    <nav class="courses" id="courseNav" aria-label="Dersler"></nav>
+    <nav class="tabs" id="tabNav" aria-label="Bölümler" hidden></nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Tema değiştir" title="Açık / koyu tema">◐</button>
+  </div>
+</header>
+<main id="app" class="container"></main>
+<footer class="foot">Kaynak kitaplara göre hazırlanmıştır. Kitapta olmayan bilgiler "Ek bilgi" kutusunda ayrıca belirtilmiştir.</footer>
+<script src="assets/music.js?v=1"></script>
+<script src="assets/app.js?v=20261114a"></script>
+<script src="data/pi101.js?v=20261114a"></script>
+<script src="data/cel101.js?v=20261114a"></script>
+<script src="data/muz1017.js?v=20261114a"></script>
+<script src="data/muz1021.js?v=20261114a"></script>
+<script>App.start();</script>
+<script src="../kit.js?v=20261113h"></script>
+<script src="kit-init.js?v=20261114a"></script>
+</body>
+</html>
