@@ -167,6 +167,32 @@
   .spy .wm{font-size:2.2rem; bottom:44px; color:transparent; background:linear-gradient(90deg,#8f6bc9,#c7606f);
     -webkit-background-clip:text; background-clip:text; opacity:.38}
 
+
+  /* ---------- Enes, Mustağfi, Sudiş: Starter Python kart yapısı ---------- */
+  .enes .back,.sofl .back,.sudis .back{padding:0; background:#0f1218; color:#e5e8ee; border:1px solid #262c37; border-top:1px solid #262c37; font-family:inherit; box-shadow:0 8px 26px rgba(0,0,0,.35)}
+  .enes .back::before{display:none}
+  .enes .ui-bar,.sofl .ui-bar,.sudis .ui-bar{background:#161a22; border-color:#262c37; position:relative}
+  .enes .ui-bar::after,.sofl .ui-bar::after,.sudis .ui-bar::after{content:""; position:absolute; left:0; right:0; bottom:-1px; height:2px; background:var(--band)}
+  .enes .ui-bar i,.sofl .ui-bar i,.sudis .ui-bar i{color:#98a1b1; background:none}
+  .enes .ui-bar i.on,.sofl .ui-bar i.on,.sudis .ui-bar i.on{background:var(--soft); color:var(--hi)}
+  .enes .ui-body,.sofl .ui-body,.sudis .ui-body{padding:10px 16px 12px; gap:7px}
+  .enes .b-title.sm,.sofl .b-title.sm,.sudis .b-title.sm{display:block; font-weight:700; font-size:1rem; background:var(--band); -webkit-background-clip:text; background-clip:text; color:transparent; width:fit-content}
+  .mini{background:#161a22; border:1px solid #262c37; border-radius:10px; padding:8px 11px; display:flex; flex-direction:column; gap:5px; font-size:.74rem; line-height:1.35}
+  .mini b{font-weight:600; color:#e5e8ee; font-size:.78rem}
+  .mini span{display:flex; align-items:center; gap:7px; color:#c9cfda}
+  .mini em{flex:none; width:16px; height:16px; border-radius:50%; display:grid; place-items:center; font-style:normal; font-size:.62rem; font-weight:700; background:var(--soft); color:var(--hi)}
+  .mini span.ok{color:#4cc27f} .mini span.ok em{background:#4cc27f; color:#0f1218}
+  .enes{--band:linear-gradient(90deg,#5b8cff,#3fc4dc); --soft:#1b2440; --hi:#8fb0ff}
+  .sofl{--band:linear-gradient(90deg,#8fb3d9,#b4a9ea); --soft:#1e2836; --hi:#b9cfe8}
+  .sudis{--band:linear-gradient(90deg,#c5ec4a,#4fc79a); --soft:#1d2614; --hi:#bde453}
+  .enes .go{color:#8fb0ff} .sofl .go{color:#b4a9ea} .sudis .go{color:#bde453; font-weight:600}
+  .enes .wm,.sofl .wm,.sudis .wm{font-family:inherit; font-size:2.6rem; bottom:38px; color:transparent; background:var(--band); -webkit-background-clip:text; background-clip:text; opacity:.3}
+  .sofl .wm{font-size:2.2rem}
+  .mini i{font-style:normal}
+  .enes .back{background-image:radial-gradient(circle at 100% 100%, rgba(63,196,220,.18), transparent 55%), radial-gradient(circle at 0% 0%, rgba(91,140,255,.16), transparent 50%)}
+  .sofl .back{background-image:radial-gradient(circle at 100% 100%, rgba(180,169,234,.18), transparent 55%), radial-gradient(circle at 0% 0%, rgba(143,179,217,.15), transparent 50%)}
+  .sudis .back{background-image:radial-gradient(circle at 100% 100%, rgba(79,199,154,.16), transparent 55%), radial-gradient(circle at 0% 0%, rgba(164,219,0,.14), transparent 50%)}
+
   /* dokunmatik: takla yok, kart düz kalır */
   @media (prefers-reduced-motion: reduce){ .flip{transition:none} }
 
@@ -264,10 +290,12 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
         </div>
         <div class="face back" aria-hidden="true">
           <span class="wm">Enes</span>
-          <span class="b-title">Vize Çalışma</span>
-          <span class="b-sub">Konu anlatımı ve testler</span>
-          <div class="chips"><span>Fide</span><span>Genetik</span><span>Kanatlı</span><span>Tahıl</span><span>Gıda</span></div>
-          <span class="go">Siteyi aç →</span>
+          <div class="ui-bar"><i class="on">Genel Tekrar</i><i>Test</i></div>
+          <div class="ui-body">
+            <span class="b-title sm">Vize Çalışma · Tahıl–Baklagil</span>
+            <div class="mini"><b>Önemli noktalar</b><span><em>1</em><i>Tarla bitkileri <strong>4</strong> ana grup</i></span><span><em>2</em>Kavuzlu: arpa, yulaf, çeltik</span></div>
+            <span class="go">Siteyi aç →</span>
+          </div>
         </div>
       </div>
     </a>
@@ -281,11 +309,10 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
         </div>
         <div class="face back" aria-hidden="true">
           <span class="wm">Mustağfi</span>
-          <div class="ui-bar"><i class="on">İngilizce</i><i>Python</i><i>Testler</i></div>
+          <div class="ui-bar"><i class="on">Testler</i><i>Kelimeler</i><i>Rehber</i></div>
           <div class="ui-body">
-            <div class="q">She ___ a student.
-              <div class="opts"><span>am</span><span class="ok">is</span><span>are</span></div>
-            </div>
+            <span class="b-title sm">SoFL 1115 · İngilizce A1</span>
+            <div class="mini"><b>1. She ___ a student.</b><span><em>A</em>am</span><span class="ok"><em>B</em>is</span></div>
             <span class="go">Siteyi aç →</span>
           </div>
         </div>
@@ -301,9 +328,12 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
         </div>
         <div class="face back" aria-hidden="true">
           <span class="wm">Sudiş</span>
-          <span class="b-title">Sudis</span>
-          <div class="topics"><span>Göç tarihi</span><span>Kültürlerarası edebiyat</span><span>Almanca özet &amp; sözlük</span></div>
-          <span class="go">Siteyi aç →</span>
+          <div class="ui-bar"><i class="on">Dersler</i><i>Kitap Özeti</i><i>Sözlük</i></div>
+          <div class="ui-body">
+            <span class="b-title sm">Sudis · Çalışma</span>
+            <div class="mini"><b>Başlıklar</b><span><em>1</em>Göç Tarihi</span><span><em>2</em>Kültürlerarası Edebiyat</span></div>
+            <span class="go">Siteyi aç →</span>
+          </div>
         </div>
       </div>
     </a>
