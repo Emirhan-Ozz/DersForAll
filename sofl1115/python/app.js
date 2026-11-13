@@ -56,7 +56,7 @@
     const [p0, p1] = page.split('/');
     document.querySelectorAll('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === (p0 === 'ozet' || p0 === 'notlar' ? p0 : 'home')));
     const ex = PY.exams.find(e => e.id === page);
-    if (p0 === 'yanlislar') { const wx = wrongExam(); if (wx.q.length) renderExam(wx); else app.innerHTML = '<a href="#/" class="small">← Çalışmalar</a><h1>Yanlışlarım</h1><p class="muted">Şu an yanlış listen boş. Çalışmaları çözdükçe yanlış yaptığın sorular burada birikir.</p>'; }
+    if (p0 === 'yanlislar') { const wx = wrongExam(); if (wx.q.length) renderExam(wx); else app.innerHTML = '<a href="#/" class="back">← Çalışmalar</a><h1>Yanlışlarım</h1><p class="muted">Şu an yanlış listen boş. Çalışmaları çözdükçe yanlış yaptığın sorular burada birikir.</p>'; }
     else if (p0 === 'ozet') app.innerHTML = window.PYGUIDE;
     else if (p0 === 'notlar') renderNotes(p1);
     else if (ex) renderExam(ex);
@@ -100,15 +100,15 @@
   function renderExam(ex) {
     const P = PY.points;
     const st = { done: false, instant: store.get('instant', false), res: {} }; // res[i] = puan oranı 0..1 (kontrol edildiyse)
-    let html = `<a href="#/" class="small">← Çalışmalar</a><h1>${esc(ex.title)}</h1><p class="lead">${esc(ex.desc)}</p>
-      <div class="bar"><span id="cnt"></span><div class="prog"><i id="prog"></i></div>
-        <label><input type="checkbox" id="instant"${st.instant ? ' checked' : ''}> Anında kontrol</label></div>
+    let html = `<a href="#/" class="back">← Çalışmalar</a><h1>${esc(ex.title)}</h1><p class="lead">${esc(ex.desc)}</p>
       <div id="result"></div>`;
     ex.q.forEach((q, i) => {
       html += `<div class="pq" id="pq${i}"><div class="pqh"><b>Soru ${i + 1}</b><span class="muted small">${TYPE[q.t]} · ${P[q.t]} puan</span></div>
         <p>${md(q.q)}</p>${body(q, i)}<div class="fb" hidden></div></div>`;
     });
-    html += `<div class="actions"><button class="btn main" id="finish">Bitir ve puanla</button><button class="btn" id="reset">Baştan başla</button></div>`;
+    html += `<div class="progress" id="prog"><span><span class="done" id="cnt"></span> cevaplandı</span><div class="pg"><i id="progi"></i></div>
+      <label><input type="checkbox" id="instant"${st.instant ? ' checked' : ''}> <span>Anında kontrol</span></label>
+      <button class="btn" id="reset">Baştan</button><button class="btn main" id="finish">Bitir ve puanla</button></div>`;
     app.innerHTML = html;
 
     // olaylar
@@ -150,7 +150,7 @@
     function count() {
       const n = ex.q.filter((q, i) => document.getElementById('pq' + i).dataset.touched || st.res[i] !== undefined).length;
       document.getElementById('cnt').textContent = `${n} / ${ex.q.length}`;
-      document.getElementById('prog').style.width = (100 * n / ex.q.length) + '%';
+      document.getElementById('progi').style.width = (100 * n / ex.q.length) + '%';
     }
 
     async function grade(i) {
@@ -252,7 +252,7 @@
   function body(q, i) {
     if (q.t === 'mc') {
       return (q.code ? `<pre class="code">${esc(q.code)}</pre>` : '') +
-        `<div class="opts col">${q.opts.map((o, k) => `<button class="opt" data-i="${k}"><b>${LET[k]})</b>${esc(o)}</button>`).join('')}</div>`;
+        `<div class="opts col">${q.opts.map((o, k) => `<button class="opt" data-i="${k}"><b>${LET[k]}</b>${esc(o)}</button>`).join('')}</div>`;
     }
     if (q.t === 'fill') {
       const [a, b] = q.code.split('____');

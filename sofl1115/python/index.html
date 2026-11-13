@@ -4,9 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MBP1104 Python · Vize Çalışma</title>
-<meta name="theme-color" content="#1c1f24">
-<link rel="stylesheet" href="../assets/style.css?v=20261111s">
-<link rel="stylesheet" href="../assets/ui.css?v=20261113b">
+<link rel="stylesheet" href="../assets/style.css?v=20261113d">
 <style id="vt-slide">
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:.5s cubic-bezier(.65,0,.25,1) both vt-out-l}
@@ -23,25 +21,31 @@ html:active-view-transition-type(back)::view-transition-new(root){animation-name
 addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=navigation.activation;if(!a||!a.from)return;var d=function(u){return new URL(u).pathname.replace(/index\.html$/,'').split('/').filter(Boolean).length};e.viewTransition.types.add(d(a.entry.url)<d(a.from.url)?'back':'forward')}catch(_){}});
 </script>
 <script src="../../phase.js?v=1"></script>
+<script>(function(){var t=null;try{t=localStorage.getItem('sofl-theme');}catch(e){}document.documentElement.setAttribute('data-theme',t||'dark');})();</script>
 </head>
 <body class="py">
-<header class="top">
-  <div class="courses"><a href="../">İngilizce</a><a href="./" class="on">Python</a></div>
-  <nav>
-    <a href="#/" data-nav="home">Çalışmalar</a>
-    <a href="#/notlar" data-nav="notlar">Ders notları</a>
-    <a href="#/ozet" data-nav="ozet">Hızlı özet</a>
-  </nav>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#/"><i></i>MBP1104<span> · Python</span></a>
+    <nav class="courses" aria-label="Dersler"><a href="../">İngilizce</a><a href="./" class="on">Python</a></nav>
+    <nav class="tabs" aria-label="Bölümler">
+      <a href="#/" data-nav="home">Çalışmalar</a>
+      <a href="#/notlar" data-nav="notlar">Ders notları</a>
+      <a href="#/ozet" data-nav="ozet">Hızlı özet</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Tema değiştir" title="Açık / koyu tema">◐</button>
+  </div>
 </header>
-<main id="app"></main>
-<script>try{new ResizeObserver(function(e){document.documentElement.style.setProperty("--toph",e[0].target.offsetHeight+"px")}).observe(document.querySelector(".top"))}catch(_){}</script>
+<main id="app" class="container"></main>
+<script>try{new ResizeObserver(function(e){document.documentElement.style.setProperty("--toph",e[0].target.offsetHeight+"px")}).observe(document.querySelector(".topbar"))}catch(_){}</script>
 
 <footer class="foot">MBP1104 · 10 soru: test, boşluk doldurma, kod yazma, akış diyagramı</footer>
 <script src="data.js?v=4e8da6ed"></script>
 <script src="notes.js?v=edf28a49"></script>
 <script src="guide.js?v=20261111s"></script>
-<script src="app.js?v=20261111m"></script>
+<script src="app.js?v=20261113d"></script>
 <script src="../../kit.js?v=20261113h"></script>
 <script src="kit-init.js?v=20261111k"></script>
+<script>(function(){var b=document.getElementById('themeBtn');if(!b)return;b.onclick=function(){var r=document.documentElement,t=r.getAttribute('data-theme')==='light'?'dark':'light';r.setAttribute('data-theme',t);try{localStorage.setItem('sofl-theme',t);}catch(e){}};})();</script>
 </body>
 </html>

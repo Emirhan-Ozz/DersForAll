@@ -6,13 +6,9 @@
   <title>Sudis · Çalışma</title>
   <meta name="description" content="Göç tarihi, kültürlerarası edebiyat ve siyasi-hukuki koşullar için sade çalışma sitesi.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='%237fa61a'/><text x='50' y='66' font-size='48' text-anchor='middle' fill='white' font-family='sans-serif'>S</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=202611110331">
-<link rel="stylesheet" href="assets/ui.css?v=20261113b">
+  <link rel="stylesheet" href="assets/style.css?v=20261113d">
   <script>
-    try { var t = localStorage.getItem('sudis-tema'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    var t = null; try { t = localStorage.getItem('sudis-tema'); } catch (e) {} document.documentElement.dataset.theme = t || 'dark';
   </script>
 <style id="vt-slide">
 @view-transition{navigation:auto}
@@ -32,16 +28,19 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
 <script src="../phase.js?v=1" data-scroll="*"></script>
 </head>
 <body>
-  <header class="top">
-    <a class="brand" href="#">Sudis</a>
-    <nav class="tabs" aria-label="Bölümler">
-      <a href="#" data-k="ders">Dersler</a>
-      <a href="#almanca" data-k="almanca">Kitap Özeti</a>
-      <a href="#sozluk" data-k="sozluk">Sözlük</a>
-    </nav>
-    <button class="theme" id="themeBtn" type="button" aria-label="Temayı değiştir">◐</button>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#"><i></i>Sudis<span> · Çalışma</span></a>
+      <nav class="tabs" aria-label="Bölümler">
+        <a href="#" data-k="ders">Dersler</a>
+        <a href="#almanca" data-k="almanca">Kitap Özeti</a>
+        <a href="#sozluk" data-k="sozluk">Sözlük</a>
+      </nav>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Temayı değiştir" title="Açık / koyu tema">◐</button>
+    </div>
   </header>
-  <main id="app"></main>
+  <main id="app" class="container"></main>
+  <script>try{new ResizeObserver(function(e){document.documentElement.style.setProperty("--toph",e[0].target.offsetHeight+"px")}).observe(document.querySelector(".topbar"))}catch(_){}</script>
   <footer class="foot">Kaynak: ders PDF'leri</footer>
   <script src="assets/content.js?v=202611110330"></script>
   <script src="assets/questions.js?v=202611110330"></script>
@@ -52,7 +51,7 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
   <script src="assets/almanca-kitap.js?v=202611110330"></script>
   <script src="assets/sozluk-data.js?v=20261111k"></script>
   <script src="assets/sozluk.js?v=20261111k"></script>
-  <script src="assets/app.js?v=20261111k"></script>
+  <script src="assets/app.js?v=20261113d"></script>
   <script src="assets/sudis-sorular.js?v=202611110330"></script>
   <script src="assets/sorular-menu.js?v=202611110330"></script>
 <script src="../kit.js?v=20261113h"></script>

@@ -55,13 +55,9 @@
     ex.reading.forEach((t, ti) => t.questions.forEach((q, qi) => qs.push({ key: `R${ti}-${qi}`, q, part: 'R' })));
     const byKey = Object.fromEntries(qs.map(x => [x.key, x]));
 
-    let html = `<a href="#/" class="small">← Testler</a>
+    let html = `<a href="#/" class="back">← Testler</a>
       <h1>${esc(ex.title)}</h1><p class="lead">${esc(ex.desc)}</p>
-      <div class="bar">
-        <span id="cnt">0 / ${qs.length}</span><div class="prog"><i id="prog"></i></div>
-        <label><input type="checkbox" id="instant"${st.instant ? ' checked' : ''}> Anında kontrol</label>
-      </div>
-      <div class="tabs"><a href="#" data-jump="pL">A · Listening</a><a href="#" data-jump="pR">B · Reading</a><a href="#" data-jump="pW">C · Writing</a></div>
+      <div class="jump"><a href="#" data-jump="pL">A · Listening</a><a href="#" data-jump="pR">B · Reading</a><a href="#" data-jump="pW">C · Writing</a></div>
       <div id="result"></div>`;
 
     // Listening
@@ -100,7 +96,9 @@
         <p class="muted small">${w.model.split(/\s+/).length} kelime, ${(w.model.match(/[.!?]/g) || []).length} cümle.</p></details>
     </section>`;
 
-    html += `<div class="actions"><button class="btn main" id="finish">Bitir ve puanla</button><button class="btn" id="reset">Baştan başla</button></div>`;
+    html += `<div class="progress" id="prog"><span><span class="done" id="cnt">0 / ${qs.length}</span> cevaplandı</span><div class="pg"><i id="progi"></i></div>
+      <label><input type="checkbox" id="instant"${st.instant ? ' checked' : ''}> <span>Anında kontrol</span></label>
+      <button class="btn" id="reset">Baştan</button><button class="btn main" id="finish">Bitir ve puanla</button></div>`;
     app.innerHTML = html;
 
     // olaylar
@@ -151,7 +149,7 @@
     function progress() {
       const c = Object.keys(st.ans).length;
       document.getElementById('cnt').textContent = `${c} / ${qs.length}`;
-      document.getElementById('prog').style.width = (100 * c / qs.length) + '%';
+      document.getElementById('progi').style.width = (100 * c / qs.length) + '%';
     }
     function finish() {
       st.done = true;
@@ -191,7 +189,7 @@
   }
   function renderWrong() {
     const items = wrongItems();
-    let html = `<a href="#/" class="small">← Testler</a><h1>Yanlışlarım</h1>
+    let html = `<a href="#/" class="back">← Testler</a><h1>Yanlışlarım</h1>
       <p class="lead">Testlerde yanlış işaretlediğin sorular. Burada doğru cevapladığında listeden düşer.</p>`;
     if (!items.length) { app.innerHTML = html + '<p class="muted">Şu an yanlış listen boş. Testleri çözdükçe yanlış yaptığın sorular burada birikir.</p>'; return; }
     let cur = '';
@@ -221,7 +219,7 @@
 
   function qHtml(key, q, n) {
     const tf = q.opts.length === 2;
-    const opts = q.opts.map((o, i) => `<button class="opt" data-k="${key}" data-i="${i}"><b>${LET[i]})</b>${esc(o)}</button>`).join('');
+    const opts = q.opts.map((o, i) => `<button class="opt" data-k="${key}" data-i="${i}"><b>${LET[i]}</b>${esc(o)}</button>`).join('');
     return `<div class="q" id="q-${key}"><div class="stem"><span class="num">${n}.</span>${esc(q.q)}</div>
       <div class="opts${tf ? '' : ' col'}">${opts}</div><div class="fb" hidden></div></div>`;
   }
@@ -352,7 +350,7 @@
     let order = deck.map((_, i) => i), i = 0, flipped = false, rev = store.get('vrev', false);
     const shuffle = () => { for (let k = order.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [order[k], order[j]] = [order[j], order[k]]; } i = 0; };
     shuffle();
-    app.innerHTML = `<a href="#" id="cback" class="small">← Listeye dön</a><h1>Kartlar</h1>
+    app.innerHTML = `<a href="#" id="cback" class="back">← Listeye dön</a><h1>Kartlar</h1>
       <div class="vrow"><span class="muted" id="cpos"></span>
         <label><input type="checkbox" id="crev"${rev ? ' checked' : ''}> Türkçeden İngilizceye</label></div>
       <div class="flash" id="card" tabindex="0"><div class="front" id="cfront"></div><div class="back" id="cbackside"></div><div class="hint muted small" id="chint">Çevirmek için dokun</div></div>

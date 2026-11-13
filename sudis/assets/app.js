@@ -64,7 +64,7 @@
     }).join('');
     app.innerHTML =
       '<section class="hero"><h1>' + fmt(g) + '</h1></section>' +
-      '<section class="cards">' + cards + '</section>' +
+      '<h2 class="sec-h">Dersler</h2><section class="cards">' + cards + '</section>' +
       (window.AlmancaKitap ? '<h2 class="sec-h">Almanca</h2><section class="cards two">' +
         '<a class="card de" href="#almanca"><span class="num">DE</span><h2>Almanca Kitap Özeti</h2><p class="auth">Dreyer / Schmitt · Grammatik aktuell</p>' +
         '<p class="desc">Kitabın tüm konuları sırasıyla Türkçe özet, mini notlar ve cevap anahtarlı alıştırmalarla.</p>' +
@@ -188,7 +188,7 @@
     return document.documentElement.dataset.theme ||
       (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   }
-  function icon() { if (tb) tb.textContent = curTheme() === 'dark' ? '☀' : '☾'; }
+  function icon() { if (tb) tb.textContent = '◐'; }
   if (tb) tb.addEventListener('click', function () {
     var nx = curTheme() === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = nx;
