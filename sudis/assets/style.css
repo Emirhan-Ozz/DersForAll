@@ -566,3 +566,17 @@ th, td { padding: 7px 10px; }
 
 /* yazı boyutu +2px (kök 16 → 18) */
 html { font-size: 18px; }
+/* responsive düzeltmeleri */
+code { overflow-wrap: anywhere; }
+.topic > h2 { flex-wrap: wrap; row-gap: 2px; }
+.topic > h2 .pg { margin-left: auto; }
+@media (max-width: 380px) { .fc-nav { grid-template-columns: 42px 1fr 1fr 42px; gap: 6px; } .fc-nav button { padding: 10px 6px; } .topbar .tabs a { padding: 0 6px; font-size: .86rem; } }
+body:has(.ask-panel:not([hidden])) .sk-home, body:has(.ask-panel:not([hidden])) .sk-fab { visibility: hidden; }
+@media (max-width: 380px) { .topbar .brand { font-size: .88rem; gap: 6px; } .topbar .tabs a { padding: 0 5px; font-size: .8rem; } .topbar-inner { gap: 6px; } }
+@media (max-width: 440px) {
+  .topbar-inner { flex-wrap: wrap; height: auto; padding: 8px 12px 0; row-gap: 2px; }
+  .topbar .brand { flex: 1; font-size: .95rem; }
+  .topbar .tabs { order: 3; flex-basis: 100%; height: 40px; }
+  .topbar .tabs a { padding: 0 10px; font-size: .92rem; }
+  .topbar .tabs a:first-child { padding-left: 2px; }
+}

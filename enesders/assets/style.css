@@ -705,3 +705,17 @@ textarea.open-in.long { min-height: 200px; }
 
 /* yazı boyutu +2px (kök 16 → 18) */
 html { font-size: 18px; }
+
+/* responsive düzeltmeleri */
+code { overflow-wrap: anywhere; }
+.topbar-inner { min-width: 0; }
+.tabs { min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.theme-btn { flex: none; }
+@media (max-width: 380px) {
+  .topbar-inner { gap: 6px; padding: 0 10px; }
+  .brand { margin-right: 0; }
+  .tabs a { padding: 0 7px; font-size: .86rem; }
+}
+.tabs a, .courses a { white-space: nowrap; flex: none; }
+@media (max-width: 440px) { .tabs { order: 2; } .theme-btn { order: 1; } .courses { order: 3; } }

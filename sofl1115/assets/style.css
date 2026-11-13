@@ -997,3 +997,18 @@ table.vocab td.tr { color: var(--text); }
 
 /* yazı boyutu +2px (kök 16 → 18) */
 html { font-size: 18px; }
+
+/* responsive düzeltmeleri */
+code { overflow-wrap: anywhere; }
+.topbar-inner { min-width: 0; }
+.tabs { min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.theme-btn { flex: none; }
+@media (max-width: 380px) {
+  .topbar-inner { gap: 6px; padding: 0 10px; }
+  .brand { margin-right: 0; }
+  .tabs a { padding: 0 7px; font-size: .86rem; }
+}
+table.format { display: block; overflow-x: auto; max-width: 100%; }
+@media (max-width: 400px) { .progress { flex-wrap: wrap; } .progress > span:first-child { flex-basis: 100%; } .progress .btn { flex: 1; } }
+.tabs a, .courses a { white-space: nowrap; flex: none; }
