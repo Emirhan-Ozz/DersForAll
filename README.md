@@ -8,3 +8,4 @@
 - `starter-python/` · Starter–Intermediate Python (PYTHON-II PDF: 10 konu, 250 soru)
 - `mbp193/` · MBP193 Programlama Temelleri (C#): konu özetleri, testler, for / while kod yazma
 - `muzik/` · Müzik (Umutcan): Pİ101 Piyano, ÇEL101 Viyolonsel, MÜZ1017 Müzik Teorisi, MÜZ1021 Antik Uygarlıklar ve Müzik; ayrıntılı konu anlatımı, mor #19063B tema (testler sonra)
+- `piano/` · Piano notes (Emirhan): nota okuma tekrarı ve alıştırmalar (EncoristDers'ten taşındı)
