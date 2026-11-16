@@ -288,6 +288,17 @@
   footer a{color:var(--mute); text-decoration:none; border-bottom:1px dashed var(--line)}
   footer a:hover{color:var(--ink)}
   footer{width:min(1120px,92vw); margin:0 auto; padding:22px 0 30px; border-top:1px solid var(--line); color:var(--mute); font-size:.85rem}
+  /* ---------- "Ne çalışmak istiyorsun?" renk dalgası ---------- */
+  .ask{font-size:clamp(2.6rem,7.2vw,5.4rem); line-height:1.02; letter-spacing:-.035em; margin:0 0 18px; font-weight:800; padding-bottom:.06em;
+    background:linear-gradient(90deg,var(--ink),var(--c1) 22%,color-mix(in srgb,var(--c1) 55%,var(--ink)) 38%,var(--c2) 55%,color-mix(in srgb,var(--c2) 50%,var(--ink)) 72%,var(--c1) 86%,var(--ink)) 0 0/200% 100% repeat-x;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation:ask-wave 3.5s linear infinite}
+  @keyframes ask-wave{ from{background-position:0 0} to{background-position:-200% 0} }
+  @media (prefers-reduced-motion: reduce){ .ask{animation:none} }
+  /* grain dokusu */
+  body::after{content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  @media (prefers-color-scheme: light){ body::after{opacity:.06} }
 </style>
 <style id="vt-slide">
 @view-transition{navigation:auto}
@@ -307,9 +318,9 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
 </head>
 <body>
 <main>
-  <p class="eyebrow">Emirhan Öz</p>
-  <h1>DersForAll</h1>
-  <p class="lead">Arkadaşlar için hazırlanan yedi çalışma sitesi. Kartın üstüne gel, açılacak sitenin temasını gör.</p>
+  <p class="eyebrow">Emirhan Öz · DersForAll</p>
+  <h1 class="ask">Ne çalışmak istiyorsun?</h1>
+  <p class="lead">Arkadaşlar için hazırlanan yedi çalışma sitesi. Kartın üstüne gel, açılacak sitenin temasını gör; her alan kendi şifresiyle açılır.</p>
   <ul class="stats"><li><b>7</b>çalışma sitesi</li><li><b>5</b>tarım dersi</li><li><b>4</b>müzik dersi</li><li><b>250</b>Python sorusu</li><li><b>114</b>C# sorusu</li><li><b>3452</b>Almanca kelime</li><li><b>63</b>gramer bölümü</li></ul>
 
   <div class="grid">
@@ -513,7 +524,6 @@ Console.<span class="f">WriteLine</span>(toplam);</div>
     </div>
   </section>
 </main>
-<footer><span>DersForAll · GitHub Pages</span><span>Emirhan Öz · 2026 · <a href="https://github.com/Emirhan-Ozz/DersForAll">GitHub</a></span></footer>
 <script>
 (function(){
   if (matchMedia('(hover: none)').matches) return;
@@ -540,5 +550,6 @@ Console.<span class="f">WriteLine</span>(toplam);</div>
   addEventListener('pageshow', function(e){ if (e.persisted) cards.forEach(function(c){ c.classList.remove('hov','flipped','settled','snap','p3d'); }); });
 })();
 </script>
+<script src="gate.js?v=1"></script>
 </body>
 </html>
