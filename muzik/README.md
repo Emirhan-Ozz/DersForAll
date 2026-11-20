@@ -1,6 +1,6 @@
 # Müzik · 4 ders (Umutcan)
 
-https://emirhan-ozz.github.io/DersDolabi/muzik/
+https://emirhan-ozz.github.io/DersForAll/muzik/
 
 | Kod | Ders | Kaynak |
 |---|---|---|
