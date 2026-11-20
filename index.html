@@ -241,11 +241,7 @@
       radial-gradient(50vw 45vh at 100% 4%, color-mix(in srgb, var(--c2) 8%, transparent), transparent 70%),
       radial-gradient(color-mix(in srgb, var(--mute) 16%, transparent) 1px, transparent 1.4px) 0 0/22px 22px;
     -webkit-mask-image:linear-gradient(180deg,#000 0,#000 40%,transparent 85%); mask-image:linear-gradient(180deg,#000 0,#000 40%,transparent 85%)}
-  .lead{margin-bottom:22px}
-  .stats{display:flex; flex-wrap:wrap; gap:8px; list-style:none; padding:0; margin:0 0 40px}
-  .stats li{display:inline-flex; align-items:baseline; gap:6px; padding:6px 13px; border-radius:99px; font-size:.86rem; color:var(--mute);
-    background:color-mix(in srgb, var(--panel) 70%, transparent); border:1px solid var(--line)}
-  .stats b{color:var(--ink); font-weight:700}
+  .lead{margin-bottom:40px}
   @media (max-width:640px){
     body::before{-webkit-mask-image:linear-gradient(180deg,#000 0,#000 55%,rgba(0,0,0,.35) 100%); mask-image:linear-gradient(180deg,#000 0,#000 55%,rgba(0,0,0,.35) 100%);
       background:
@@ -289,7 +285,7 @@
   footer a:hover{color:var(--ink)}
   footer{width:min(1120px,92vw); margin:0 auto; padding:22px 0 30px; border-top:1px solid var(--line); color:var(--mute); font-size:.85rem}
   /* ---------- "Ne çalışmak istiyorsun?" renk dalgası ---------- */
-  .ask{font-size:clamp(2.6rem,7.2vw,5.4rem); line-height:1.02; letter-spacing:-.035em; margin:0 0 18px; font-weight:800; padding-bottom:.06em;
+  .ask{font-size:clamp(2.6rem,7.2vw,5.4rem); line-height:1.12; letter-spacing:-.035em; margin:0 0 10px; font-weight:800; padding:0 0 .16em;
     background:linear-gradient(90deg,var(--ink),var(--c1) 22%,color-mix(in srgb,var(--c1) 55%,var(--ink)) 38%,var(--c2) 55%,color-mix(in srgb,var(--c2) 50%,var(--ink)) 72%,var(--c1) 86%,var(--ink)) 0 0/200% 100% repeat-x;
     -webkit-background-clip:text; background-clip:text; color:transparent;
     animation:ask-wave 3.5s linear infinite}
@@ -299,6 +295,29 @@
   body::after{content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.05;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   @media (prefers-color-scheme: light){ body::after{opacity:.06} }
+  /* ---------- sağ üstte "İçerik" paneli ---------- */
+  .toc-pop{position:fixed; top:16px; right:16px; z-index:60}
+  .toc-pop > summary{list-style:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px; padding:9px 15px; border-radius:99px;
+    font-weight:700; font-size:.92rem; color:var(--ink); background:color-mix(in srgb, var(--panel) 88%, transparent); border:1px solid var(--line);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); box-shadow:0 6px 20px rgba(0,0,0,.18); user-select:none}
+  .toc-pop > summary::-webkit-details-marker{display:none}
+  .toc-pop > summary::after{content:""; width:7px; height:7px; border-right:2px solid currentColor; border-bottom:2px solid currentColor; transform:translateY(-2px) rotate(45deg); transition:transform .2s; opacity:.7}
+  .toc-pop[open] > summary::after{transform:translateY(2px) rotate(-135deg)}
+  .toc-pop > summary:hover{border-color:color-mix(in srgb, var(--c1) 55%, var(--line))}
+  .toc-pop > summary:focus-visible{outline:2px solid var(--c1); outline-offset:2px}
+  .toc-box{position:absolute; right:0; top:calc(100% + 8px); width:min(380px, calc(100vw - 32px)); max-height:min(72vh, 620px); overflow:auto;
+    background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:8px; box-shadow:0 22px 50px rgba(0,0,0,.35)}
+  .toc-box h3{margin:6px 10px 6px; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--mute); font-weight:700}
+  .toc-site{display:block; padding:11px 12px 12px; border-radius:12px; color:var(--ink); text-decoration:none}
+  .toc-site + .toc-site{border-top:1px solid var(--line); border-radius:0 0 12px 12px}
+  .toc-site:hover{background:color-mix(in srgb, var(--c) 10%, transparent)}
+  .toc-site b{display:flex; align-items:center; gap:8px; font-size:.95rem}
+  .toc-site b::before{content:""; width:9px; height:9px; border-radius:50%; background:var(--c); flex:none}
+  .toc-site b em{font-style:normal; font-weight:500; color:var(--mute); font-size:.82rem; margin-left:auto}
+  .toc-site ul{margin:6px 0 0 17px; padding:0; list-style:none; color:var(--mute); font-size:.85rem; line-height:1.5}
+  .toc-site li b{display:inline; color:var(--ink); font-size:inherit}
+  .toc-site li b::before{content:none}
+  @media (max-width:640px){ .toc-pop{top:10px; right:10px} .toc-pop > summary{padding:8px 13px} }
 </style>
 <style id="vt-slide">
 @view-transition{navigation:auto}
@@ -317,11 +336,38 @@ addEventListener('pagereveal',function(e){if(!e.viewTransition)return;try{var a=
 </script>
 </head>
 <body>
+<details class="toc-pop" id="tocPop">
+  <summary>İçerik</summary>
+  <div class="toc-box">
+    <h3>Hangi sitede ne var?</h3>
+    <a class="toc-site" style="--c:#5b95ff" href="enesders/"><b>EnesDers<em>Enes</em></b><ul>
+      <li><b>5</b> tarım dersi: fide, genetik, kanatlı, tahıl ve gıda</li><li>Konu özetleri ve testler</li></ul></a>
+    <a class="toc-site" style="--c:#8fb3d9" href="sofl1115/"><b>SoFL 1115<em>Mustağfi</em></b><ul>
+      <li>İngilizce A1: kelime, dilbilgisi, dinleme denemeleri</li><li>MBP1104 Python bölümü</li>
+      <li>MBP1145 Web Tasarımı I: <b>211</b> HTML / CSS sorusu, 4 deneme sınavı</li></ul></a>
+    <a class="toc-site" style="--c:#8fbf0a" href="sudis/"><b>Sudis<em>Sudiş</em></b><ul>
+      <li>Göç tarihi, kültürlerarası edebiyat, hukuki koşullar, sinema, drama ve tiyatro</li>
+      <li>Almanca sözlük: <b>3452</b> kelime</li><li>Almanca gramer özeti: <b>63</b> bölüm</li></ul></a>
+    <a class="toc-site" style="--c:#b393e6" href="starter-python/"><b>Starter–Intermediate Python<em>Özge Abla</em></b><ul>
+      <li><b>10</b> konu özeti ve tuzaklar</li><li><b>250</b> Python sorusu, her konuya 2 test</li></ul></a>
+    <a class="toc-site" style="--c:#0f8a7e" href="mbp193/"><b>MBP193 · Programlama Temelleri<em>Hako</em></b><ul>
+      <li><b>114</b> C# test ve boşluk sorusu</li><li>for / while kod yazma alıştırmaları</li></ul></a>
+    <a class="toc-site" style="--c:#7b4fe0" href="muzik/"><b>Müzik Dersleri<em>Umutcan</em></b><ul>
+      <li><b>4</b> ders: Pİ101 Piyano, ÇEL101 Viyolonsel, MÜZ1017 Teori, MÜZ1021 Antik Uygarlıklar</li><li>Ayrıntılı konu anlatımı</li></ul></a>
+    <a class="toc-site" style="--c:#b48a49" href="piano/"><b>Piano notes<em>Emirhan</em></b><ul>
+      <li>Nota okuma: porte, notalar ve alıştırmalar</li></ul></a>
+  </div>
+</details>
+<script>
+(function(){var d=document.getElementById('tocPop');
+document.addEventListener('click',function(e){if(d.open&&!d.contains(e.target))d.open=false});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&d.open){d.open=false;d.querySelector('summary').focus()}});
+d.querySelector('.toc-box').addEventListener('click',function(e){if(e.target.closest('a'))d.open=false});})();
+</script>
 <main>
   <p class="eyebrow">Emirhan Öz · DersForAll</p>
   <h1 class="ask">Ne çalışmak istiyorsun?</h1>
-  <p class="lead">Arkadaşlar için hazırlanan yedi çalışma sitesi. Kartın üstüne gel, açılacak sitenin temasını gör; her alan kendi şifresiyle açılır.</p>
-  <ul class="stats"><li><b>7</b>çalışma sitesi</li><li><b>5</b>tarım dersi</li><li><b>4</b>müzik dersi</li><li><b>250</b>Python sorusu</li><li><b>114</b>C# sorusu</li><li><b>211</b>HTML / CSS sorusu</li><li><b>3452</b>Almanca kelime</li><li><b>63</b>gramer bölümü</li></ul>
+  <p class="lead">Dostlarım için hazırladığım bireysel çalışma siteleridir. Kendi dersinizin kartına tıklayıp şifrenizle girebilirsiniz.</p>
 
   <div class="grid">
     <a class="card enes" href="enesders/" aria-label="EnesDers vize çalışma sitesini aç">
