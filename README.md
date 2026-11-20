@@ -1,6 +1,6 @@
-# DersForAll
+# DersDolabı
 
-Çalışma siteleri tek repoda: https://emirhan-ozz.github.io/DersForAll/
+Çalışma siteleri tek repoda: https://emirhan-ozz.github.io/DersDolabi/
 
 - `enesders/` · 5 derslik vize sitesi (eski repo: EnesDers)
 - `sofl1115/` · SoFL 1115 İngilizce + `sofl1115/python/` MBP1104 + `sofl1115/web/` MBP1145 Web Tasarımı I (eski repo: SoFL1115StudyRepo)

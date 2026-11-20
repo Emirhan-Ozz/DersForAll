@@ -1,4 +1,4 @@
-/* DersForAll şifre kapısı.
+/* DersDolabı şifre kapısı (eski adı DersForAll; localStorage anahtarı dfa: aynı kaldı).
    - Kökte (ana menü): kartlara ve hızlı erişim linklerine tıklanınca şifre ekranı açar.
    - Alt sitelerde (<head> içinde ilk script olarak): şifre girilmemişse ana menüye geri yollar.
    Şifreler burada açık durmaz; yalnızca SHA-256 özetleri tutulur.
