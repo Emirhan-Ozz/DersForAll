@@ -51,6 +51,9 @@
     (c.extra || []).forEach(function (ex, k) {
       ex.questions.forEach(function (q, i) { prep(c, q, c.id + '-x' + k + '-' + i); });
     });
+    // ayrı soru havuzu (data/<ders>-havuz.js): her açılışta 'pick' kadar soru çekilir
+    c.havuz = (App.havuz && App.havuz[c.id]) || null;
+    if (c.havuz) c.havuz.questions.forEach(function (q, i) { prep(c, q, c.id + '-h-' + i); });
     c.exams = buildExams(c);
     COURSES.push(c);
     BY[c.id] = c;
@@ -124,9 +127,9 @@
   }
 
   /* ---------- rastgele seçim: en az görülen önce ---------- */
-  function randomPick(c, type, count) {
+  function randomPick(c, type, count, from) {
     var seen = store('enesders-seen');
-    var pool = byType(c.bank, type);
+    var pool = byType(from || c.bank, type);
     var groups = {}, keys = [];
     pool.forEach(function (q) { if (!groups[q.topic]) { groups[q.topic] = []; keys.push(q.topic); } groups[q.topic].push(q); });
     keys.forEach(function (k) {
@@ -162,6 +165,14 @@
     else { qs = randomPick(c, 'long', 4); title = 'Rastgele uzun klasik vize'; desc = '4 uzun soru, her biri 25 puan.'; }
     markSeen(qs);
     return { id: 'r-' + kind + '-' + count, group: kind, title: title, desc: desc, mode: 'exam', random: true, questions: qs };
+  }
+
+  // havuzdan her açılışta yeni seçim: az görülen sorular önce, konulara yayılmış
+  function havuzExam(c) {
+    var h = c.havuz, qs = randomPick(c, 'mc', h.pick, h.questions);
+    markSeen(qs);
+    return { id: 'havuz', group: 'test', title: h.title + ' (' + qs.length + ' soru)', desc: h.questions.length + ' soruluk havuzdan rastgele seçildi.',
+      mode: 'exam', random: true, questions: qs };
   }
 
   /* ---------- yönlendirme ---------- */
@@ -301,7 +312,7 @@
     try { localStorage.setItem(wKey(c), JSON.stringify(w)); } catch (e) { /* yok say */ }
   }
   function allQs(c) {
-    var out = c.bank.slice();
+    var out = c.bank.slice().concat(c.havuz ? c.havuz.questions : []);
     (c.extra || []).forEach(function (e) { out = out.concat(e.questions); });
     return out;
   }
@@ -326,7 +337,10 @@
       : '<div class="test-card"><div class="t">Yanlışlarım</div><div class="d">Henüz yanlış yaptığın soru yok. Testleri çözdükçe yanlışların burada birikir.</div></div>');
     var not = g('not');
     if (not.length) html += grp('Notlardaki sorular', '', not.map(function (e) { return examCard(c, e); }).join(''));
-    html += grp('Test', 'çoktan seçmeli · ' + n.mc + ' soruluk banka', g('test').map(function (e) { return examCard(c, e); }).join('') +
+    var hv = c.havuz ? '<a class="test-card featured" href="#/' + c.id + '/test/havuz"><div class="t">' + esc(c.havuz.title) + '</div>' +
+      '<div class="d">' + c.havuz.questions.length + ' soruluk havuzdan her açılışta ' + c.havuz.pick + ' soru; az gördüklerin önce gelir.</div>' +
+      '<div class="meta"><span class="badge exam">Sınav modu</span><span>' + c.havuz.pick + ' soru</span>' + bestOf(c, 'havuz') + '</div></a>' : '';
+    html += grp('Test', 'çoktan seçmeli · ' + n.mc + ' soruluk banka', hv + g('test').map(function (e) { return examCard(c, e); }).join('') +
       randCard(c, 'test', 'Rastgele test', 'Soru sayısını seç (20–50). Her açılışta farklı sorular.', sizes));
     html += grp('Boşluk doldurma + Doğru/Yanlış', n.fill + ' boşluk · ' + n.tf + ' D/Y', g('bdy').map(function (e) { return examCard(c, e); }).join('') +
       randCard(c, 'bdy', 'Rastgele boşluk + D/Y', '10 boşluk + 10 D/Y, her açılışta farklı.'));
@@ -351,6 +365,7 @@
     var exam;
     var m = /^r-(test|bdy|klasik|uzun)-(\d+)$/.exec(id);
     if (m) exam = randomExam(c, m[1], +m[2] || 30);
+    else if (id === 'havuz' && c.havuz) exam = havuzExam(c);
     else if (id === 'yanlislar') exam = wrongExam(c);
     else exam = c.exams.filter(function (e) { return e.id === id; })[0];
     if (!exam || !exam.questions.length) return testList(c);
@@ -560,7 +575,7 @@
   }
 
   function saveBest() {
-    if (S.exam.random) return;
+    if (S.exam.random && S.exam.id !== 'havuz') return;
     var b = store('enesders-best'), k = S.c.id + '/' + S.exam.id, s = score();
     if (b[k] == null || s > b[k]) { b[k] = s; store('enesders-best', b); }
   }
